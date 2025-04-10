@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMH Library - Discover Books You'll Love</title>
+
+  <!-- SMH Library: CSS -->
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
+</head>
+<body>
+
+  <!-- SMH Library: Dynamic partials -->
+  <div id="smh-library-partial-toast"></div>
+  <div id="smh-library-partial-header"></div>
+
+  <!-- SMH Library: Hero + Main -->
+  <main id="smh-library-main">
+    <!-- Hero section -->
+    <section id="smh-library-hero">
+      <div class="smh-library-hero-text">
+        <h1>Find Your Next Favorite Book</h1>
+        <p>We help you discover and track books that match your reading style 📚✨</p>
+      </div>
+      <div class="smh-library-hero-image">
+        <img src="assets/images/animated-books.gif" alt="Animated stack of books" />
+      </div>
+    </section>
+
+    <!-- Book Filter Form -->
+    <section id="smh-library-book-filter">
+      <h2>Search Books</h2>
+      <form id="smh-library-form" aria-label="Book Filter Form">
+        <label for="smh-library-genre">Genre:</label>
+        <select id="smh-library-genre" name="genre">
+          <option value="">Any</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Non-Fiction">Non-Fiction</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Mystery">Mystery</option>
+        </select>
+
+        <label for="smh-library-author">Author:</label>
+        <input type="text" id="smh-library-author" name="author" placeholder="e.g., Tolkien" />
+
+        <label for="smh-library-language">Language:</label>
+        <input type="text" id="smh-library-language" name="language" placeholder="e.g., English" />
+
+        <label for="smh-library-isbn">ISBN:</label>
+        <input type="text" id="smh-library-isbn" name="isbn" placeholder="e.g., 9781234567890" />
+
+        <label for="smh-library-year">Year:</label>
+        <input type="number" id="smh-library-year" name="year" min="1900" max="2025" placeholder="e.g., 2020" />
+
+        <button type="submit" class="smh-library-btn">Search</button>
+      </form>
+    </section>
+
+    <!-- Recommendations -->
+    <section id="smh-library-results">
+      <h2>Recommendations</h2>
+      <div id="smh-library-results-container"></div>
+    </section>
+
+    <!-- About Us -->
+    <section id="smh-library-about">
+      <h2>About Us</h2>
+      <p>
+        Welcome to SMH Library! We connect passionate readers to books they’ll love, 
+        using personalized filters and an intuitive digital experience.
+      </p>
+    </section>
+
+    <!-- Contact Us -->
+    <section id="smh-library-contact">
+      <h2>Contact Us</h2>
+      <form id="smh-library-contact-form">
+        <label for="smh-library-name">Name:</label>
+        <input type="text" id="smh-library-name" name="name" required />
+
+        <label for="smh-library-email">Email:</label>
+        <input type="email" id="smh-library-email" name="email" required />
+
+        <label for="smh-library-message">Message:</label>
+        <textarea id="smh-library-message" name="message" rows="5" required></textarea>
+
+        <button type="submit" class="smh-library-btn">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer Partial -->
+  <div id="smh-library-partial-footer"></div>
+
+  <!-- JavaScript (Modules) -->
+  <script type="module" src="js/smh-library-main.js"></script>
+
+</body>
+</html>
