@@ -7,8 +7,19 @@ import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 let smhLibraryBookList = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // 🔄 Hamburger Menu Toggle Logic
+  const toggle = document.getElementById('smh-library-toggle-menu');
+  const navLinks = document.getElementById('smh-library-nav-links');
+  if (toggle && navLinks) {
+    toggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+  }
+
+  // 📘 Load books
   smhLibraryBookList = await smhLibraryLoadBooks();
 
+  // 🔍 Filter form handler
   const form = document.getElementById('smh-library-form');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -43,16 +54,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   smhLibraryInitContactForm();
   smhLibraryInitRatings();
-});
-
-// SMH Library: Mobile menu toggle
-document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('smh-library-toggle-menu');
-  const links = document.getElementById('smh-library-nav-links');
-
-  if (toggle && links) {
-    toggle.addEventListener('click', () => {
-      links.classList.toggle('show');
-    });
-  }
 });

@@ -64,28 +64,11 @@ main {
   height: auto;
 }
 
-#smh-library-navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
-
 #smh-library-navbar a {
   color: white;
   font-weight: bold;
   text-decoration: none;
 }
-
-/* Default: hide hamburger */
-#smh-library-toggle-menu {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-}
-
 
 /* SMH Library: Button styles */
 .smh-library-btn {
@@ -194,22 +177,52 @@ input, select, textarea {
   }
 }
 
+/*  Default (desktop) */
+/* 🔷 Navigation (Desktop) */
+#smh-library-nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-/* Mobile: show hamburger and hide nav links */
+#smh-library-nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* 🔷 Hide hamburger by default */
+#smh-library-toggle-menu {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* 🔷 Mobile Menu */
 @media (max-width: 768px) {
-  #smh-library-navbar ul {
+  #smh-library-toggle-menu {
+    display: block;
+  }
+
+  #smh-library-nav-links {
     display: none;
     flex-direction: column;
     width: 100%;
-    background: var(--smh-primary);
+    background-color: var(--smh-primary);
     margin-top: 1rem;
+    padding: 1rem 0;
   }
 
-  #smh-library-navbar ul.show {
+  #smh-library-nav-links.show {
     display: flex;
   }
 
-  #smh-library-toggle-menu {
-    display: block;
+  #smh-library-nav-links li {
+    padding: 0.5rem 1rem;
   }
 }
