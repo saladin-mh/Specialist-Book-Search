@@ -42,6 +42,51 @@ main {
   margin: auto;
 }
 
+/* 🔷 SMH Library: Navigation styles */
+#smh-library-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: var(--smh-primary);
+  color: white;
+}
+
+.smh-library-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.smh-library-logo img {
+  width: 40px;
+  height: auto;
+}
+
+#smh-library-navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+#smh-library-navbar a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Default: hide hamburger */
+#smh-library-toggle-menu {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+
 /* SMH Library: Button styles */
 .smh-library-btn {
   background-color: var(--smh-primary);
@@ -146,5 +191,25 @@ input, select, textarea {
   #smh-library-hero {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+
+/* Mobile: show hamburger and hide nav links */
+@media (max-width: 768px) {
+  #smh-library-navbar ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: var(--smh-primary);
+    margin-top: 1rem;
+  }
+
+  #smh-library-navbar ul.show {
+    display: flex;
+  }
+
+  #smh-library-toggle-menu {
+    display: block;
   }
 }

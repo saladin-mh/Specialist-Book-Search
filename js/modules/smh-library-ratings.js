@@ -1,14 +1,13 @@
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
 
-const RATING_KEY = 'smh-library-user-ratings';
+const key = 'smh-library-user-ratings';
 
-// SMH Library: Initialize all book ratings
 export function smhLibraryInitRatings() {
-  const allRatings = smhLibraryStorageGet(RATING_KEY, {});
+  const allRatings = smhLibraryStorageGet(key, {});
 
   document.querySelectorAll('.smh-library-rating').forEach(container => {
-    const bookElement = container.closest('.book');
-    const isbn = bookElement?.dataset.smhLibraryIsbn;
+    const book = container.closest('.book');
+    const isbn = book?.dataset.smhLibraryIsbn;
     if (!isbn) return;
 
     const current = allRatings[isbn] || 0;
@@ -17,15 +16,14 @@ export function smhLibraryInitRatings() {
     for (let i = 1; i <= 5; i++) {
       const star = document.createElement('span');
       star.textContent = i <= current ? '★' : '☆';
-      star.classList.add('smh-library-star');
       star.style.cursor = 'pointer';
-      star.setAttribute('data-star', i);
+      star.dataset.star = i;
 
-      star.addEventListener('click', () => {
+      star.onclick = () => {
         allRatings[isbn] = i;
-        smhLibraryStorageSet(RATING_KEY, allRatings);
-        smhLibraryInitRatings(); // re-render
-      });
+        smhLibraryStorageSet(key, allRatings);
+        smhLibraryInitRatings();
+      };
 
       container.appendChild(star);
     }

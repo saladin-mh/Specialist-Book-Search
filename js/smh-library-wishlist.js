@@ -37,3 +37,15 @@ export function smhLibraryRenderWishlist() {
 }
 
 document.addEventListener('DOMContentLoaded', smhLibraryRenderWishlist);
+
+// SMH Library: Mobile menu toggle
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.getElementById('smh-library-toggle-menu');
+  const links = document.getElementById('smh-library-nav-links');
+
+  if (toggle && links) {
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('show');
+    });
+  }
+});

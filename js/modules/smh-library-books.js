@@ -1,16 +1,12 @@
-// SMH Library: Load books from external JSON file
+import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
+
+const wishlistKey = 'smh-library-wishlist';
+
 export async function smhLibraryLoadBooks() {
-  try {
-    const response = await fetch('data/books.json');
-    const books = await response.json();
-    return books;
-  } catch (error) {
-    console.error('SMH Library: Failed to load books', error);
-    return [];
-  }
+  const res = await fetch('data/books.json');
+  return await res.json();
 }
 
-// SMH Library: Render a single book as a card element
 export function smhLibraryRenderBook(book, highlight = false) {
   const div = document.createElement('div');
   div.className = 'book';
@@ -27,9 +23,17 @@ export function smhLibraryRenderBook(book, highlight = false) {
     <p><strong>ISBN:</strong> ${book.isbn}</p>
     <p><strong>Price:</strong> $${book.price.toFixed(2)}</p>
     <p>${book.description}</p>
-    <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
-    <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
+    <div class="smh-library-rating"></div>
+    <button class="smh-library-btn" data-add="${book.title}">Add to Wishlist</button>
   `;
+
+  div.querySelector('[data-add]').onclick = () => {
+    const wishlist = smhLibraryStorageGet(wishlistKey, []);
+    if (!wishlist.find(b => b.title === book.title)) {
+      wishlist.push(book);
+      smhLibraryStorageSet(wishlistKey, wishlist);
+    }
+  };
 
   return div;
 }
