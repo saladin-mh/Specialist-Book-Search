@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       };
 
       const results = smhLibraryFilterBooks(smhLibraryBookList, filters);
+        console.log('Filter:', filters);
+        console.log('Results:', results);
+
       const container = document.getElementById('smh-library-results-container');
       container.innerHTML = '';
 
