@@ -15,6 +15,7 @@ export function smhLibraryRenderBook(book, highlight = false) {
   div.setAttribute('data-smh-library-isbn', book.isbn || '');
 
   div.innerHTML = `
+    ${book.cover ? `<img src="${book.cover}" alt="${book.title} cover" class="smh-library-book-cover">` : ''}
     <h3>${book.title}</h3>
     <p><strong>Author:</strong> ${book.author}</p>
     <p><strong>Genre:</strong> ${book.genre}</p>
@@ -23,9 +24,10 @@ export function smhLibraryRenderBook(book, highlight = false) {
     <p><strong>ISBN:</strong> ${book.isbn}</p>
     <p><strong>Price:</strong> $${Number(book.price).toFixed(2)}</p>
     <p>${book.description}</p>
-    <div class="smh-library-rating"></div>
-    <button class="smh-library-btn" data-add="${book.title}">Add to Wishlist</button>
+    <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
+    <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
   `;
+
 
   div.querySelector('[data-add]').onclick = () => {
     const wishlist = smhLibraryStorageGet(wishlistKey, []);

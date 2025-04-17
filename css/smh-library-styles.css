@@ -226,3 +226,13 @@ input, select, textarea {
     padding: 0.5rem 1rem;
   }
 }
+
+/* SMH Library: Book Cover */
+.smh-library-book-cover {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 1rem auto;
+  border-radius: var(--smh-radius);
+  box-shadow: var(--smh-shadow);
+}
