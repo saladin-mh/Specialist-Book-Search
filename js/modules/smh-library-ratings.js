@@ -2,6 +2,12 @@ import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storag
 
 const key = 'smh-library-user-ratings';
 
+/**
+ * Initializes the star rating component on all rendered books.
+ * - Pulls previous ratings from localStorage
+ * - Binds both mouse and keyboard events
+ * - Ensures accessibility (ARIA)
+ */
 export function smhLibraryInitRatings() {
   const ratings = smhLibraryStorageGet(key, {});
 
@@ -14,6 +20,7 @@ export function smhLibraryInitRatings() {
     container.setAttribute('role', 'radiogroup');
     container.setAttribute('aria-label', 'Book rating');
 
+    // Dynamically create 5-star rating scale
     for (let i = 1; i <= 5; i++) {
       const star = document.createElement('span');
       star.textContent = i <= current ? '★' : '☆';
@@ -23,13 +30,14 @@ export function smhLibraryInitRatings() {
       star.setAttribute('role', 'radio');
       star.setAttribute('aria-checked', i === current);
 
-      // Add click and keyboard control
+      // Click event to update rating
       star.addEventListener('click', () => {
         ratings[isbn] = i;
         smhLibraryStorageSet(key, ratings);
-        smhLibraryInitRatings(); // re-render all
+        smhLibraryInitRatings(); // Re-render for UI update
       });
 
+      // Keyboard support: Enter or Space sets rating
       star.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
