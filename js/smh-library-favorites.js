@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   favorites.forEach(book => {
-    const bookCard = smhLibraryRenderBook(book);
+    const bookCard = smhLibraryRenderBook(book, false, { allowRemoveFavorite: true });
     container.appendChild(bookCard);
   });
 

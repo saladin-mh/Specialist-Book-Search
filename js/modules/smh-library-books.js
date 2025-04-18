@@ -8,7 +8,7 @@ export async function smhLibraryLoadBooks() {
   return await res.json();
 }
 
-export function smhLibraryRenderBook(book, highlight = false) {
+export function smhLibraryRenderBook(book, highlight = false, options = {}) {
   const div = document.createElement('div');
   div.className = 'book';
   if (highlight) div.classList.add('highlight');
@@ -29,11 +29,14 @@ export function smhLibraryRenderBook(book, highlight = false) {
     <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
 
     <div class="smh-library-actions">
+      ${options.allowRemoveFavorite ? `
+      <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">🗑️ Remove</button>
+     ` : `
       <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
       <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}">💖 Favorite</button>
+      `}
     </div>
-  `;
-
+    `;
   // Add to Wishlist
   div.querySelector('[data-smh-library-add]').onclick = () => {
     const wishlist = smhLibraryStorageGet(wishlistKey, []);
@@ -42,6 +45,8 @@ export function smhLibraryRenderBook(book, highlight = false) {
       smhLibraryStorageSet(wishlistKey, wishlist);
     }
   };
+  // Remove from Favorites
+  
 
   // Add to Favorites
   div.querySelector('[data-smh-library-fav]').onclick = () => {
