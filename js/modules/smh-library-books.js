@@ -8,8 +8,7 @@ export async function smhLibraryLoadBooks() {
   return await res.json();
 }
 
-export function smhLibraryRenderBook(book, highlight = false, options = {}) {
-  const isFavorited = smhLibraryStorageGet(favoritesKey, []).some(fav => fav.title === book.title);
+export function smhLibraryRenderBook(book, highlight = false) {
   const div = document.createElement('div');
   div.className = 'book';
   if (highlight) div.classList.add('highlight');
@@ -30,26 +29,19 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
 
     <div class="smh-library-actions">
-      ${options.allowRemoveFavorite ? `
-        <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">🗑️ Remove</button>
-      ` : `
-        <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
-        <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}"> ${isFavorited ? '⭐ Favorited' : '💖 Favorite'}</button>
-      `}
+      <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
+      <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}">💖 Favorite</button>
     </div>
   `;
 
-  // ✅ Add to Wishlist (if button exists)
-  const addBtn = div.querySelector('[data-smh-library-add]');
-  if (addBtn) {
-    addBtn.onclick = () => {
-      const wishlist = smhLibraryStorageGet(wishlistKey, []);
-      if (!wishlist.find(b => b.title === book.title)) {
-        wishlist.push(book);
-        smhLibraryStorageSet(wishlistKey, wishlist);
-      }
-    };
-  }
+  // Add to Wishlist
+  div.querySelector('[data-smh-library-add]').onclick = () => {
+    const wishlist = smhLibraryStorageGet(wishlistKey, []);
+    if (!wishlist.find(b => b.title === book.title)) {
+      wishlist.push(book);
+      smhLibraryStorageSet(wishlistKey, wishlist);
+    }
+  };
 
   // ✅ Add to Favorites (if button exists)
   const favBtn = div.querySelector('[data-smh-library-fav]');

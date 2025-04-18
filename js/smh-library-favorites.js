@@ -12,8 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   favorites.forEach(book => {
-    const bookCard = smhLibraryRenderBook(book, false, { allowRemoveFavorite: true });
-    bookCard.classList.add('fade-in');
+    const bookCard = smhLibraryRenderBook(book);
     container.appendChild(bookCard);
   });
   
