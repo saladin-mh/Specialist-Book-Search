@@ -249,3 +249,11 @@ input, select, textarea {
   margin-right: 2px;
   outline: none;
 }
+
+.smh-fav-btn {
+  background-color: var(--smh-danger);
+  margin-left: 0.5rem;
+}
+.smh-fav-btn:hover {
+  background-color: #a02e23;
+}
