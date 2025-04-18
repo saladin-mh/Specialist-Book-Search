@@ -3,18 +3,33 @@ import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storag
 const wishlistKey = 'smh-library-wishlist';
 const favoritesKey = 'smh-library-favorites';
 
+/**
+ * Asynchronously loads the books data from JSON
+ * @returns {Promise<Array>} Parsed JSON list of books
+ */
 export async function smhLibraryLoadBooks() {
   const res = await fetch('data/books.json');
   return await res.json();
 }
 
-export function smhLibraryRenderBook(book, highlight = false) {
+/**
+ * Renders a single book card into a DOM element
+ * @param {Object} book - A book object
+ * @param {boolean} highlight - Whether to visually highlight this book
+ * @param {Object} options - Contextual flags (e.g., allowRemoveFavorite)
+ * @returns {HTMLElement} DOM element representing the book
+ */
+export function smhLibraryRenderBook(book, highlight = false, options = {}) {
   const div = document.createElement('div');
-  div.className = 'book';
+  div.className = 'book fade-in'; // Includes animation
   if (highlight) div.classList.add('highlight');
 
-  // Add ISBN as unique identifier
+  // Unique identifier to track by ISBN
   div.setAttribute('data-smh-library-isbn', book.isbn || '');
+
+  // Check if book is already favorited for button label
+  const isFavorited = smhLibraryStorageGet(favoritesKey, []).some(fav => fav.title === book.title);
+  const favLabel = isFavorited ? '⭐ Favorited' : '💖 Favorite';
 
   div.innerHTML = `
     ${book.cover ? `<img src="${book.cover}" alt="${book.title} cover" class="smh-library-book-cover">` : ''}
@@ -29,23 +44,32 @@ export function smhLibraryRenderBook(book, highlight = false) {
     <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
 
     <div class="smh-library-actions">
-      <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
-      <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}">💖 Favorite</button>
+      ${options.allowRemoveFavorite ? `
+        <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">🗑️ Remove</button>
+      ` : `
+        <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
+        <button class="smh-library-btn smh-fav-btn ${isFavorited ? 'favorited' : ''}" data-smh-library-fav="${book.title}">
+          ${favLabel}
+        </button>
+      `}
     </div>
   `;
 
-  // Add to Wishlist
-  div.querySelector('[data-smh-library-add]').onclick = () => {
-    const wishlist = smhLibraryStorageGet(wishlistKey, []);
-    if (!wishlist.find(b => b.title === book.title)) {
-      wishlist.push(book);
-      smhLibraryStorageSet(wishlistKey, wishlist);
-    }
-  };
+  // Wishlist button logic (if shown)
+  const addBtn = div.querySelector('[data-smh-library-add]');
+  if (addBtn) {
+    addBtn.onclick = () => {
+      const wishlist = smhLibraryStorageGet(wishlistKey, []);
+      if (!wishlist.find(b => b.title === book.title)) {
+        wishlist.push(book);
+        smhLibraryStorageSet(wishlistKey, wishlist);
+      }
+    };
+  }
 
-  // ✅ Add to Favorites (if button exists)
+  // Favorites button logic (if shown)
   const favBtn = div.querySelector('[data-smh-library-fav]');
-  if (favBtn) {
+  if (favBtn && !isFavorited) {
     favBtn.onclick = () => {
       const favorites = smhLibraryStorageGet(favoritesKey, []);
       if (!favorites.find(b => b.title === book.title)) {
@@ -55,14 +79,14 @@ export function smhLibraryRenderBook(book, highlight = false) {
     };
   }
 
-  // ✅ Remove from Favorites (only shown on favorites.html)
+  // Remove from favorites logic (if on favorites.html)
   const removeBtn = div.querySelector('[data-smh-library-remove]');
   if (removeBtn) {
     removeBtn.onclick = () => {
       let favorites = smhLibraryStorageGet(favoritesKey, []);
       favorites = favorites.filter(b => b.title !== book.title);
       smhLibraryStorageSet(favoritesKey, favorites);
-      div.remove(); // Remove from DOM
+      div.remove(); // Live removal from DOM
     };
   }
 
