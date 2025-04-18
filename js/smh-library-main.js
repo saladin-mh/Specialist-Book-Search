@@ -6,8 +6,16 @@ import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
 let smhLibraryBookList = [];
 
+/**
+ * Initialises all interactive modules for the homepage.
+ * - Loads book data
+ * - Handles navigation toggle
+ * - Filters books by user preferences
+ * - Supports animations and dynamic ratings
+ */
 document.addEventListener('DOMContentLoaded', async () => {
-  // 🔄 Hamburger Menu Toggle Logic
+
+  // Toggle mobile navigation menu
   const toggle = document.getElementById('smh-library-toggle-menu');
   const navLinks = document.getElementById('smh-library-nav-links');
   if (toggle && navLinks) {
@@ -16,15 +24,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // 📘 Load books
+  // Load book dataset
   smhLibraryBookList = await smhLibraryLoadBooks();
 
-  // 🔍 Filter form handler
+  // Hook into search filter form
   const form = document.getElementById('smh-library-form');
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
+      // Construct filter criteria from user input
       const filters = {
         genre: form.genre.value,
         author: form.author.value.trim().toLowerCase(),
@@ -33,10 +42,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         year: parseInt(form.year.value) || null
       };
 
+      // Perform book filtering based on criteria
       const results = smhLibraryFilterBooks(smhLibraryBookList, filters);
-        console.log('Filter:', filters);
-        console.log('Results:', results);
+      console.log('Filter:', filters);
+      console.log('Results:', results);
 
+      // Update results display container
       const container = document.getElementById('smh-library-results-container');
       container.innerHTML = '';
 
@@ -45,18 +56,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      results.forEach((book, i) => {
-        const element = smhLibraryRenderBook(book, i === 0);
-        element.classList.add('fade-in');  // animation added
+      // Render filtered books — highlight best match (first)
+      results.forEach((book, index) => {
+        const element = smhLibraryRenderBook(book, index === 0); // Highlight top book
+        element.classList.add('fade-in'); // Entry animation
         container.appendChild(element);
       });
-      
 
+      // Initialise rating system dynamically
       smhLibraryInitRatings();
+
+      // Toast notification feedback
       smhLibraryShowToast(`${results.length} book(s) found.`);
     });
   }
 
-  smhLibraryInitContactForm();
-  smhLibraryInitRatings();
+  // Initialise global modules
+  smhLibraryInitContactForm();  // For contact section
+  smhLibraryInitRatings();      // For default ratings
 });
