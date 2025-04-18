@@ -9,6 +9,7 @@ export async function smhLibraryLoadBooks() {
 }
 
 export function smhLibraryRenderBook(book, highlight = false, options = {}) {
+  const isFavorited = smhLibraryStorageGet(favoritesKey, []).some(fav => fav.title === book.title);
   const div = document.createElement('div');
   div.className = 'book';
   if (highlight) div.classList.add('highlight');
@@ -30,32 +31,48 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
 
     <div class="smh-library-actions">
       ${options.allowRemoveFavorite ? `
-      <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">🗑️ Remove</button>
-     ` : `
-      <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
-      <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}">💖 Favorite</button>
+        <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">🗑️ Remove</button>
+      ` : `
+        <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
+        <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}"> ${isFavorited ? '⭐ Favorited' : '💖 Favorite'}</button>
       `}
     </div>
-    `;
-  // Add to Wishlist
-  div.querySelector('[data-smh-library-add]').onclick = () => {
-    const wishlist = smhLibraryStorageGet(wishlistKey, []);
-    if (!wishlist.find(b => b.title === book.title)) {
-      wishlist.push(book);
-      smhLibraryStorageSet(wishlistKey, wishlist);
-    }
-  };
-  // Remove from Favorites
-  
+  `;
 
-  // Add to Favorites
-  div.querySelector('[data-smh-library-fav]').onclick = () => {
-    const favorites = smhLibraryStorageGet(favoritesKey, []);
-    if (!favorites.find(b => b.title === book.title)) {
-      favorites.push(book);
+  // ✅ Add to Wishlist (if button exists)
+  const addBtn = div.querySelector('[data-smh-library-add]');
+  if (addBtn) {
+    addBtn.onclick = () => {
+      const wishlist = smhLibraryStorageGet(wishlistKey, []);
+      if (!wishlist.find(b => b.title === book.title)) {
+        wishlist.push(book);
+        smhLibraryStorageSet(wishlistKey, wishlist);
+      }
+    };
+  }
+
+  // ✅ Add to Favorites (if button exists)
+  const favBtn = div.querySelector('[data-smh-library-fav]');
+  if (favBtn) {
+    favBtn.onclick = () => {
+      const favorites = smhLibraryStorageGet(favoritesKey, []);
+      if (!favorites.find(b => b.title === book.title)) {
+        favorites.push(book);
+        smhLibraryStorageSet(favoritesKey, favorites);
+      }
+    };
+  }
+
+  // ✅ Remove from Favorites (only shown on favorites.html)
+  const removeBtn = div.querySelector('[data-smh-library-remove]');
+  if (removeBtn) {
+    removeBtn.onclick = () => {
+      let favorites = smhLibraryStorageGet(favoritesKey, []);
+      favorites = favorites.filter(b => b.title !== book.title);
       smhLibraryStorageSet(favoritesKey, favorites);
-    }
-  };
+      div.remove(); // Remove from DOM
+    };
+  }
 
   return div;
 }

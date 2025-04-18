@@ -23,7 +23,7 @@ export function smhLibraryRenderWishlist() {
       <p><strong>Language:</strong> ${book.language}</p>
       <p><strong>Year:</strong> ${book.year}</p>
       <p><strong>ISBN:</strong> ${book.isbn}</p>
-      <p><strong>Price:</strong> $${book.price.toFixed(2)}</p>
+      <p><strong>Price:</strong> $$$${Number(book.price).toFixed(2)}
       <button class="smh-library-btn" data-remove="${book.title}">Remove</button>
     `;
     div.querySelector('[data-remove]').onclick = () => {

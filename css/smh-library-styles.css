@@ -257,3 +257,34 @@ input, select, textarea {
 .smh-fav-btn:hover {
   background-color: #a02e23;
 }
+
+.smh-remove-fav {
+  background-color: var(--smh-border);
+  color: black;
+  margin-left: 0.5rem;
+}
+
+.smh-remove-fav:hover {
+  background-color: #eee;
+}
+
+.smh-fav-btn.favorited {
+  background-color: #ffb347;
+  color: black;
+  font-weight: bold;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeSlideUp 0.4s ease-out both;
+}

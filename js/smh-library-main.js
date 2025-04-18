@@ -47,8 +47,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       results.forEach((book, i) => {
         const element = smhLibraryRenderBook(book, i === 0);
+        element.classList.add('fade-in');  // animation added
         container.appendChild(element);
       });
+      
 
       smhLibraryInitRatings();
       smhLibraryShowToast(`${results.length} book(s) found.`);
