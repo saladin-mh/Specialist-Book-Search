@@ -2,41 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SMH Library - Favorites</title>
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="../css/smh-library-styles.css"/>
-  <script type="module" src="../js/smh-library-favorites.js"></script>
+  <link rel="stylesheet" href="../css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
+
+  <!-- Accessibility: Skip Link Style -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #0055a5;
+      color: white;
+      padding: 0.5rem;
+      z-index: 100;
+      transition: top 0.3s ease;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
 </head>
 <body>
-    <!-- SMH Library: Navigation Header -->
-    <header id="smh-library-header">
-        <nav id="smh-library-navbar" aria-label="Main Navigation">
-          <div class="smh-library-logo">
-            <img src="../assets/images/logo1.jpg" alt="SMH Library Logo" />
-            <span>SMH Library</span>
-          </div>
-      
-          <!-- Hamburger Menu Button -->
-          <button id="smh-library-toggle-menu" aria-label="Toggle Menu">&#9776;</button>
-      
-          <!-- Navigation Links -->
-          <ul id="smh-library-nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="wishlist.html">Wishlist</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="favorites.html">Favorites</a></li>
-            <li><a href="book-club.html">Book Club</a></li>
-          </ul>
-        </nav>
-    </header>
 
-  <main>
-    <h1>Your Favorite Books 💖</h1>
-    <div id="smh-library-results-container"></div>
+  <!-- Skip to Content (Accessibility) -->
+  <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+
+  <!-- Navigation Header -->
+  <header id="smh-library-header" role="banner">
+    <nav id="smh-library-navbar" aria-label="Main Navigation">
+      <div class="smh-library-logo">
+        <img src="../assets/images/logo1.jpg" alt="SMH Library Logo" />
+        <span>SMH Library</span>
+      </div>
+
+      <button id="smh-library-toggle-menu" aria-label="Toggle Menu">&#9776;</button>
+
+      <ul id="smh-library-nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="favorites.html">Favorites</a></li>
+        <li><a href="book-club.html">Book Club</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Toast Container -->
+  <div id="smh-library-toast" role="alert" aria-live="polite"></div>
+
+  <!-- Main Favorites Content -->
+  <main id="smh-library-main" role="main" aria-labelledby="favorites-heading">
+    <section id="smh-library-favorites" aria-label="Favorite books">
+      <h1 id="favorites-heading">Your Favorite Books 💖</h1>
+      <p>These are your favorite titles. You can remove books anytime from the list below.</p>
+      <div id="smh-library-results-container" aria-live="polite"></div>
+    </section>
   </main>
 
-  <footer id="smh-library-footer">
-    &copy; 2025 SMH Library. All rights reserved.
+  <!-- Footer -->
+  <footer id="smh-library-footer" role="contentinfo">
+    <p>&copy; 2025 SMH Library. All rights reserved.</p>
   </footer>
+
+  <!-- JavaScript Logic -->
+  <script type="module" src="../js/smh-library-favorites.js"></script>
+
 </body>
 </html>
