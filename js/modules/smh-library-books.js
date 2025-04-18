@@ -1,6 +1,7 @@
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
 
 const wishlistKey = 'smh-library-wishlist';
+const favoritesKey = 'smh-library-favorites';
 
 export async function smhLibraryLoadBooks() {
   const res = await fetch('data/books.json');
@@ -12,6 +13,7 @@ export function smhLibraryRenderBook(book, highlight = false) {
   div.className = 'book';
   if (highlight) div.classList.add('highlight');
 
+  // Add ISBN as unique identifier
   div.setAttribute('data-smh-library-isbn', book.isbn || '');
 
   div.innerHTML = `
@@ -25,15 +27,28 @@ export function smhLibraryRenderBook(book, highlight = false) {
     <p><strong>Price:</strong> $${Number(book.price).toFixed(2)}</p>
     <p>${book.description}</p>
     <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
-    <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
+
+    <div class="smh-library-actions">
+      <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
+      <button class="smh-library-btn smh-fav-btn" data-smh-library-fav="${book.title}">💖 Favorite</button>
+    </div>
   `;
 
-
-  div.querySelector('[data-add]').onclick = () => {
+  // Add to Wishlist
+  div.querySelector('[data-smh-library-add]').onclick = () => {
     const wishlist = smhLibraryStorageGet(wishlistKey, []);
     if (!wishlist.find(b => b.title === book.title)) {
       wishlist.push(book);
       smhLibraryStorageSet(wishlistKey, wishlist);
+    }
+  };
+
+  // Add to Favorites
+  div.querySelector('[data-smh-library-fav]').onclick = () => {
+    const favorites = smhLibraryStorageGet(favoritesKey, []);
+    if (!favorites.find(b => b.title === book.title)) {
+      favorites.push(book);
+      smhLibraryStorageSet(favoritesKey, favorites);
     }
   };
 

@@ -3,27 +3,39 @@ import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storag
 const key = 'smh-library-user-ratings';
 
 export function smhLibraryInitRatings() {
-  const allRatings = smhLibraryStorageGet(key, {});
+  const ratings = smhLibraryStorageGet(key, {});
 
   document.querySelectorAll('.smh-library-rating').forEach(container => {
-    const book = container.closest('.book');
-    const isbn = book?.dataset.smhLibraryIsbn;
-    if (!isbn) return;
+    const bookEl = container.closest('.book');
+    const isbn = bookEl?.dataset.smhLibraryIsbn;
+    const current = ratings[isbn] || 0;
 
-    const current = allRatings[isbn] || 0;
     container.innerHTML = '';
+    container.setAttribute('role', 'radiogroup');
+    container.setAttribute('aria-label', 'Book rating');
 
     for (let i = 1; i <= 5; i++) {
       const star = document.createElement('span');
       star.textContent = i <= current ? '★' : '☆';
-      star.style.cursor = 'pointer';
-      star.dataset.star = i;
+      star.className = 'smh-library-star';
+      star.setAttribute('data-star', i);
+      star.setAttribute('tabindex', 0);
+      star.setAttribute('role', 'radio');
+      star.setAttribute('aria-checked', i === current);
 
-      star.onclick = () => {
-        allRatings[isbn] = i;
-        smhLibraryStorageSet(key, allRatings);
-        smhLibraryInitRatings();
-      };
+      // Add click and keyboard control
+      star.addEventListener('click', () => {
+        ratings[isbn] = i;
+        smhLibraryStorageSet(key, ratings);
+        smhLibraryInitRatings(); // re-render all
+      });
+
+      star.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          star.click();
+        }
+      });
 
       container.appendChild(star);
     }

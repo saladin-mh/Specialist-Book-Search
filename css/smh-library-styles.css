@@ -236,3 +236,16 @@ input, select, textarea {
   border-radius: var(--smh-radius);
   box-shadow: var(--smh-shadow);
 }
+
+.smh-library-rating {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+.smh-library-star {
+  cursor: pointer;
+  color: gold;
+  margin-right: 2px;
+  outline: none;
+}
