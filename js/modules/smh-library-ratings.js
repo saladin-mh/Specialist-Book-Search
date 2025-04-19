@@ -3,7 +3,7 @@ import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storag
 const key = 'smh-library-user-ratings';
 
 /**
- * Initializes the star rating component on all rendered books.
+ * Initialises the star rating component on all rendered books.
  * - Pulls previous ratings from localStorage
  * - Binds both mouse and keyboard events
  * - Ensures accessibility (ARIA)

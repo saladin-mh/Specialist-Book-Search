@@ -31,6 +31,22 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
   const isFavorited = smhLibraryStorageGet(favoritesKey, []).some(fav => fav.title === book.title);
   const favLabel = isFavorited ? '⭐ Favourited' : '💖 Favourite';
 
+// Process the book description to produce multiple paragraphs if newlines are present
+// Ensure the description is clean and presentable, or use a fallback
+let summaryParagraphs = '';
+
+if (book.description && typeof book.description === 'string' && book.description.length > 30) {
+  summaryParagraphs = book.description
+    .split('\n')
+    .filter(p => p.trim() !== '')
+    .map(p => `<p>${p.trim()}</p>`)
+    .join('');
+} else {
+  summaryParagraphs = `<p><em>No summary available for this title.</em></p>`;
+}
+
+
+
   div.innerHTML = `
     ${book.cover ? `<img src="${book.cover}" alt="${book.title} cover" class="smh-library-book-cover">` : ''}
     <h3>${book.title}</h3>
@@ -39,8 +55,8 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     <p><strong>Language:</strong> ${book.language}</p>
     <p><strong>Year:</strong> ${book.year}</p>
     <p><strong>ISBN:</strong> ${book.isbn}</p>
-    <p><strong>Price:</strong> $${Number(book.price).toFixed(2)}</p>
-    <p>${book.description}</p>
+    <p><strong>Price:</strong> £${Number(book.price).toFixed(2)}</p>
+    ${summaryParagraphs} 
     <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
 
     <div class="smh-library-actions">
