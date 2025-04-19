@@ -1,7 +1,7 @@
-/* SMH Library: Root variables */
+/* SMH Library: Root CSS Variables (Purple Theming) */
 :root {
-  --smh-primary: #0055a5;
-  --smh-accent: #e2efff;
+  --smh-primary: #6a0dad;       /* Main theme colour: purple */
+  --smh-accent: #efe6fa;        /* Accent background shade */
   --smh-bg: #ffffff;
   --smh-text: #222;
   --smh-light: #f5f5f5;
@@ -12,7 +12,7 @@
   --smh-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* SMH Library: Base styles */
+/* Universal box model reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -36,13 +36,14 @@ a {
   text-decoration: none;
 }
 
+/* Central layout wrapper */
 main {
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: auto;
 }
 
-/* 🔷 SMH Library: Navigation styles */
+/* Navigation bar styling */
 #smh-library-navbar {
   display: flex;
   align-items: center;
@@ -70,7 +71,7 @@ main {
   text-decoration: none;
 }
 
-/* SMH Library: Button styles */
+/* Button design */
 .smh-library-btn {
   background-color: var(--smh-primary);
   color: white;
@@ -83,10 +84,10 @@ main {
 }
 
 .smh-library-btn:hover {
-  background-color: #003f7d;
+  background-color: #530b9e; /* deeper purple on hover */
 }
 
-/* SMH Library: Form styling */
+/* Form input styles */
 form {
   display: grid;
   gap: 1rem;
@@ -100,7 +101,7 @@ input, select, textarea {
   width: 100%;
 }
 
-/* SMH Library: Book cards */
+/* Responsive Book Grid */
 #smh-library-results-container {
   margin-top: 2rem;
   display: grid;
@@ -121,7 +122,7 @@ input, select, textarea {
   background: #e9fbe5;
 }
 
-/* SMH Library: Toast notifications */
+/* Toast message styling */
 #smh-library-toast {
   position: fixed;
   bottom: 20px;
@@ -142,7 +143,7 @@ input, select, textarea {
   transform: translateY(0);
 }
 
-/* SMH Library: Responsive hero */
+/* Home page hero section */
 #smh-library-hero {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +161,7 @@ input, select, textarea {
   max-width: 280px;
 }
 
-/* SMH Library: Footer */
+/* Footer area */
 #smh-library-footer {
   text-align: center;
   background: var(--smh-primary);
@@ -169,7 +170,7 @@ input, select, textarea {
   margin-top: 3rem;
 }
 
-/* SMH Library: Mobile adjustments */
+/* Mobile adjustment */
 @media (max-width: 768px) {
   #smh-library-hero {
     flex-direction: column;
@@ -177,101 +178,41 @@ input, select, textarea {
   }
 }
 
-/*  Default (desktop) */
-/* 🔷 Navigation (Desktop) */
-#smh-library-nav-links {
-  display: flex;
-  gap: 1.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+/* Navigation display (desktop) */
+#smh-library-navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+  }
 
-#smh-library-nav-links li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* 🔷 Hide hamburger by default */
 #smh-library-toggle-menu {
   display: none;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
 }
 
-/* 🔷 Mobile Menu */
+/* Mobile navigation toggle */
 @media (max-width: 768px) {
-  #smh-library-toggle-menu {
-    display: block;
-  }
-
-  #smh-library-nav-links {
+  #smh-library-navbar ul {
     display: none;
     flex-direction: column;
-    width: 100%;
     background-color: var(--smh-primary);
+    width: 100%;
     margin-top: 1rem;
-    padding: 1rem 0;
   }
 
-  #smh-library-nav-links.show {
+  #smh-library-navbar ul.show {
     display: flex;
   }
 
-  #smh-library-nav-links li {
-    padding: 0.5rem 1rem;
+  #smh-library-toggle-menu {
+    display: block;
   }
 }
 
-/* SMH Library: Book Cover */
-.smh-library-book-cover {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto 1rem auto;
-  border-radius: var(--smh-radius);
-  box-shadow: var(--smh-shadow);
-}
-
-.smh-library-rating {
-  margin: 0.5rem 0;
-  font-size: 1.2rem;
-  display: inline-block;
-}
-
-.smh-library-star {
-  cursor: pointer;
-  color: gold;
-  margin-right: 2px;
-  outline: none;
-}
-
-.smh-fav-btn {
-  background-color: var(--smh-danger);
-  margin-left: 0.5rem;
-}
-.smh-fav-btn:hover {
-  background-color: #a02e23;
-}
-
-.smh-remove-fav {
-  background-color: var(--smh-border);
-  color: black;
-  margin-left: 0.5rem;
-}
-
-.smh-remove-fav:hover {
-  background-color: #eee;
-}
-
-.smh-fav-btn.favorited {
-  background-color: #ffb347;
-  color: black;
-  font-weight: bold;
+/* Fade-in effect on load */
+.fade-in {
+  animation: fadeSlideUp 0.4s ease-out both;
 }
 
 @keyframes fadeSlideUp {
@@ -285,17 +226,67 @@ input, select, textarea {
   }
 }
 
-.fade-in {
-  animation: fadeSlideUp 0.4s ease-out both;
+/* Star Rating Visual */
+.smh-library-star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 4px;
+  transition: color 0.2s ease;
 }
 
-#smh-library-toast {
-  opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(20px);
+.smh-library-star:hover {
+  color: var(--smh-primary);
 }
 
-#smh-library-toast.show {
-  opacity: 1;
-  transform: translateY(0);
+/* Skip link styling */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--smh-primary);
+  color: white;
+  padding: 0.5rem;
+  z-index: 100;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+
+/* Star Rating Visual: Yellow Stars */
+.smh-library-star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 4px;
+  color: gold; /* Yellow stars */
+  transition: color 0.2s ease;
+}
+
+/* Add to Wishlist Button: Green */
+.smh-library-btn[data-smh-library-add] {
+  background-color: #27ae60;
+}
+
+.smh-library-btn[data-smh-library-add]:hover {
+  background-color: #1e8449;
+}
+
+/* Favourite Button: Blue */
+.smh-library-btn.smh-fav-btn {
+  background-color: #3498db;
+}
+
+.smh-library-btn.smh-fav-btn:hover {
+  background-color: #2c80b4;
+}
+
+/* Remove Button: Red */
+.smh-library-btn.smh-remove-fav {
+  background-color: #e74c3c;
+}
+
+.smh-library-btn.smh-remove-fav:hover {
+  background-color: #c0392b;
 }

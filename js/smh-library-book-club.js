@@ -4,7 +4,7 @@ import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 const storageKey = 'smh-library-club-comments';
 
 /**
- * Initializes the book club comment system.
+ * Initialises the book club comment system.
  * Sets up form submission logic and loads previous comments from storage.
  */
 document.addEventListener('DOMContentLoaded', () => {

@@ -1,7 +1,7 @@
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
 
 const wishlistKey = 'smh-library-wishlist';
-const favoritesKey = 'smh-library-favorites';
+const favoritesKey = 'smh-library-favourites';
 
 /**
  * Asynchronously loads the books data from JSON
@@ -29,7 +29,7 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
 
   // Check if book is already favorited for button label
   const isFavorited = smhLibraryStorageGet(favoritesKey, []).some(fav => fav.title === book.title);
-  const favLabel = isFavorited ? '⭐ Favorited' : '💖 Favorite';
+  const favLabel = isFavorited ? '⭐ Favourited' : '💖 Favourite';
 
   div.innerHTML = `
     ${book.cover ? `<img src="${book.cover}" alt="${book.title} cover" class="smh-library-book-cover">` : ''}
@@ -67,7 +67,7 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     };
   }
 
-  // Favorites button logic (if shown)
+  // Favourites button logic (if shown)
   const favBtn = div.querySelector('[data-smh-library-fav]');
   if (favBtn && !isFavorited) {
     favBtn.onclick = () => {
@@ -79,7 +79,7 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     };
   }
 
-  // Remove from favorites logic (if on favorites.html)
+  // Remove from favourites logic (if on favourites.html)
   const removeBtn = div.querySelector('[data-smh-library-remove]');
   if (removeBtn) {
     removeBtn.onclick = () => {

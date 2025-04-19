@@ -3,17 +3,17 @@ import { smhLibraryRenderBook } from './modules/smh-library-books.js';
 import { smhLibraryInitRatings } from './modules/smh-library-ratings.js';
 
 /**
- * Initializes the favorites page by loading saved favorites
+ * Initialises the favourites page by loading saved favourites
  * from localStorage and rendering each book as a card element.
  * Includes full fade animation and ratings module injection.
  */
 document.addEventListener('DOMContentLoaded', () => {
-  const favorites = smhLibraryStorageGet('smh-library-favorites', []);
+  const favorites = smhLibraryStorageGet('smh-library-favourites', []);
   const container = document.getElementById('smh-library-results-container');
 
-  // Fallback if no favorites found
+  // Fallback if no favourites found
   if (favorites.length === 0) {
-    container.innerHTML = '<p>No favorite books found. 💔</p>';
+    container.innerHTML = '<p>No favourite books found. 💔</p>';
     return;
   }
 
@@ -27,6 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     container.appendChild(bookCard);
   });
 
-  // Initialize dynamic star ratings post-render
+  // Initialise dynamic star ratings post-render
   smhLibraryInitRatings();
 });

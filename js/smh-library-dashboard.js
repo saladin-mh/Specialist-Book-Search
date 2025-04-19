@@ -2,7 +2,7 @@ import { smhLibraryStorageGet } from './modules/smh-library-storage.js';
 import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
 /**
- * Initializes the dashboard with genre stats and contact messages.
+ * Initialises the dashboard with genre stats and contact messages.
  */
 document.addEventListener('DOMContentLoaded', () => {
   const wishlist = smhLibraryStorageGet('smh-library-wishlist', []);

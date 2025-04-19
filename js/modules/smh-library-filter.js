@@ -2,7 +2,6 @@
  * Filters a list of books based on user-selected criteria.
  * Supports genre, author (partial), language, ISBN, and year.
  * Results are automatically sorted by highest rating (descending).
- * 
  * @param {Array} books - List of all book objects
  * @param {Object} filters - Object with filter criteria
  * @returns {Array} Filtered and sorted list of books

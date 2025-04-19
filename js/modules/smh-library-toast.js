@@ -1,11 +1,9 @@
 /**
  * Displays a toast notification on the screen.
- *
  * - Automatically hides after a delay
  * - Works with ARIA live region for screen readers
  * - Includes fade animation support
  * - Prevents stacking or overlap by clearing existing timeouts
- *
  * @param {string} message - The message to show
  * @param {number} duration - How long to show the toast (ms)
  */

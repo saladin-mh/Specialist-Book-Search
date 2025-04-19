@@ -2,7 +2,7 @@ import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storag
 import { smhLibraryShowToast } from './smh-library-toast.js';
 
 /**
- * Initializes the contact form with validation and localStorage support.
+ * Initialises the contact form with validation and localStorage support.
  * Captures name, email, and message inputs and stores the data in localStorage.
  * Ensures that invalid or empty inputs are not processed.
  */
