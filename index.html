@@ -3,153 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SMH Library - Discover Books You'll Love</title>
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/smh-library-styles.css" />
-  <link rel="stylesheet" href="../css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
-
-  <!-- Accessibility: Skip link for keyboard navigation -->
-  <style>
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: #0055a5;
-      color: white;
-      padding: 0.5rem;
-      z-index: 100;
-      transition: top 0.3s ease;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-  </style>
+  <meta name="description" content="SMH Library – A dynamic and accessible book discovery platform" />
+  <title>SMH Library | Home</title>
+  <link rel="stylesheet" href="./css/smh-library-dark.css" />
+  <link rel="stylesheet" href="./css/smh-library-styles.css" />
+  <script type="module" src="./js/smh-library-main.js" defer></script>
 </head>
 <body>
 
-  <!-- Accessibility: Skip Navigation -->
-  <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+  <!--Preloader for better UX-->
+  <div id="smh-library-preloader" role="alert" aria-live="assertive">
+    <p>Loading...</p>
 
-  <!-- Header / Navigation -->
-  <header id="smh-library-header" role="banner">
-    <nav id="smh-library-navbar" aria-label="Main Navigation">
-      <div class="smh-library-logo">
-        <img src="../assets/images/logo1.jpg" alt="SMH Library Logo" />
-        <span>SMH Library</span>
-      </div>
+  <!--Accessibility Skip Link-->
+  <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
+  <a href="#smh-library-navbar" class="visually-hidden-focusable">Skip to navigation</a>
+  <a href="#smh-library-footer" class="visually-hidden-focusable">Skip to footer</a>
+  
+  <!--Main Navigation Bar-->
+  <header id="smh-library-navbar" role="banner">
+    <div class="smh-library-logo">
+      <img src="./assets/images/logo1.jpg" alt="SMH Library Logo" />
+      <span>SMH Library</span>
+    </div>
 
-      <!-- Hamburger Menu Button -->
-      <button id="smh-library-toggle-menu" aria-label="Toggle Menu">&#9776;</button>
+    <!--Hamburger toggle for mobile-->
+    <button id="smh-library-toggle-menu" aria-label="Toggle navigation">☰</button>
 
-      <!-- Navigation Links -->
-      <ul id="smh-library-nav-links">
+    <!--Navigation links, reordered per user request-->
+    <nav>
+      <ul id="smh-library-nav-links" role="navigation">
         <li><a href="index.html">Home</a></li>
-        <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="favourites.html">Favourites</a></li>
         <li><a href="book-club.html">Book Club</a></li>
+        <li><a href="about-us.html">About Us</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Toast Notifications -->
-  <div id="smh-library-toast" role="alert" aria-live="polite"></div>
+  <!--Hero Section with Background Video-->
+  <section id="smh-library-hero">
+    <video autoplay muted loop id="smh-library-background-video">
+      <source src="assets/videos/library-background.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="smh-library-hero-text">
+      <h1>Welcome to SMH Library</h1>
+      <p>Discover, save, and rate your favourite reads. Empowered by accessibility and creativity.</p>
+    </div>
+  </section>
 
-  <!-- Main Page Content -->
-  <main id="smh-library-main" role="main">
+  <!--Main Content Area-->
+  <main id="main-content" role="main">
+    <h2>Find Your Next Favourite Book</h2>
 
-    <!-- Hero Section -->
-    <section id="smh-library-hero" aria-labelledby="hero-title">
-      <div class="smh-library-hero-text">
-        <h1 id="hero-title">Find Your Next Favorite Book</h1>
-        <p>We help you discover and track books that match your reading style 📚✨</p>
-      </div>
-      <div class="smh-library-hero-image">
-        <img src="../assets/images/animated.gif" alt="Animated books image" />
-      </div>
-    </section>
+    <!--Filter Form-->
+    <form id="smh-library-form" aria-label="Book search form">
+      <label for="genre">Genre</label>
+      <select name="genre" id="genre">
+        <option value="">Any Genre</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="Mystery">Mystery</option>
+      </select>
 
-    <!-- Book Filter -->
-    <section id="smh-library-book-filter" aria-labelledby="filter-heading">
-      <h2 id="filter-heading">Search Books</h2>
-      <form id="smh-library-form">
-        <label for="genre">Genre:</label>
-        <select id="genre" name="genre">
-          <option value="">Any</option>
-          <option value="Fiction">Fiction</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Mystery">Mystery</option>
-          <option value="Romance">Romance</option>
-          <option value="Biography">Biography</option>
-          <option value="History">History</option>
-          <option value="Poetry">Poetry</option>
-          <option value="Travel">Travel</option>
-          <option value="Religion">Religion</option>
-          <option value="Science">Science</option>
-        </select>
+      <label for="author">Author</label>
+      <input type="text" name="author" id="author" placeholder="Author name" />
 
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" placeholder="e.g., Tolkien" />
+      <label for="language">Language</label>
+      <input type="text" name="language" id="language" placeholder="e.g. English" />
 
-        <label for="language">Language:</label>
-        <input type="text" id="language" name="language" placeholder="e.g., English" />
+      <label for="isbn">ISBN</label>
+      <input type="text" name="isbn" id="isbn" placeholder="e.g. 9781234567890" />
 
-        <label for="isbn">ISBN:</label>
-        <input type="text" id="isbn" name="isbn" placeholder="e.g., 9781234567890" />
+      <label for="year">Year of Publication</label>
+      <input type="number" name="year" id="year" placeholder="e.g. 2021" />
 
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" placeholder="e.g., 2020" min="1900" max="2025" />
+      <button type="submit" class="smh-library-btn">Search</button>
+    </form>
 
-        <button type="submit" class="smh-library-btn">Search</button>
-      </form>
-    </section>
-
-    <!-- Search Results -->
-    <section id="smh-library-results" aria-labelledby="results-heading">
-      <h2 id="results-heading">Recommendations</h2>
-      <div id="smh-library-results-container" aria-live="polite"></div>
-    </section>
-
-    <!-- About Us -->
-    <section id="smh-library-about" aria-labelledby="about-heading">
-      <h2 id="about-heading">About Us</h2>
-      <p>Welcome to SMH Library! We connect passionate readers with great books using smart filters and a smooth digital experience.</p>
-      <p>Our mission is to help you discover books that match your interests and reading style. Whether you're looking for the latest bestseller, a classic novel, or a hidden gem, we've got you covered.</p>
-      <p>Join our community of book lovers and start your reading journey with us today!</p>
-      <p>We are committed to providing a user-friendly platform that makes it easy for you to find and track your favorite books. Our team is dedicated to curating a diverse selection of titles that cater to all tastes and preferences.</p>
-      <p>We believe that reading is a lifelong journey, and we are here to support you every step of the way. Our platform is designed to help you discover new authors, genres, and titles that you'll love.</p>
-      <p>Thank you for choosing SMH Library as your go-to source for book recommendations. We look forward to helping you find your next favorite read!</p>
-      <p>Happy reading!<br>The SMH Library Team</p>
-    </section>
-
-    <!-- Contact Us -->
-    <section id="smh-library-contact" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Contact Us</h2>
-      <form id="smh-library-contact-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required />
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
-
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
-
-        <button type="submit" class="smh-library-btn">Send Message</button>
-      </form>
-    </section>
-
+    <!--Filtered Book Results Render Here-->
+    <div id="smh-library-results-container" aria-live="polite"></div>
   </main>
 
-  <!-- Footer -->
-  <footer id="smh-library-footer" role="contentinfo">
-    <p>&copy; 2025 SMH Library. All rights reserved.</p>
-  </footer>
+  <!--Toast Notification Component-->
+  <div id="smh-library-toast" role="alert" aria-live="assertive"></div>
 
-  <!-- Main JS Logic -->
-  <script type="module" src="./js/smh-library-main.js"></script>
+  <!--Footer-->
+  <footer id="smh-library-footer" role="contentinfo">
+    <p>&copy; 2025 SMH Library | Designed for accessibility and discovery</p>
+  </footer>
 </body>
 </html>
-<!-- End of HTML Document -->
