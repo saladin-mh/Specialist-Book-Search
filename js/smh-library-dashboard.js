@@ -1,8 +1,10 @@
+// Import necessary modules
 import { smhLibraryStorageGet } from './modules/smh-library-storage.js';
 import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
 /**
- * Initialises the dashboard with genre stats and contact messages.
+ * Main Initialisation:
+ * Loads dashboard visualisations and message archives upon page load.
  */
 document.addEventListener('DOMContentLoaded', () => {
   const wishlist = smhLibraryStorageGet('smh-library-wishlist', []);
@@ -13,33 +15,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Renders a bar chart showing number of wishlist books per genre.
- * @param {Array} wishlist - Array of wishlist books
+ * Renders a bar chart summarising the number of books per genre in the wishlist.
+ * Utilises Chart.js for dynamic and accessible visualisation.
+ * 
+ * @param {Array} wishlist - The array containing wishlist book entries.
  */
 function renderGenreChart(wishlist) {
   const ctx = document.getElementById('smh-library-genre-chart');
   if (!ctx || !window.Chart) return;
 
   if (wishlist.length === 0) {
-    smhLibraryShowToast('No data in wishlist.');
+    smhLibraryShowToast('No data found in wishlist.');
     return;
   }
 
-  // Aggregate genre counts
-  const genreStats = wishlist.reduce((acc, book) => {
-    acc[book.genre] = (acc[book.genre] || 0) + 1;
-    return acc;
+  // Generate a frequency count of books per genre
+  const genreStats = wishlist.reduce((accumulator, book) => {
+    accumulator[book.genre] = (accumulator[book.genre] || 0) + 1;
+    return accumulator;
   }, {});
 
-  // Render chart with Chart.js
+  // Create the bar chart
   new Chart(ctx, {
     type: 'bar',
     data: {
       labels: Object.keys(genreStats),
       datasets: [{
-        label: 'Books per Genre',
+        label: 'Number of Books per Genre',
         data: Object.values(genreStats),
-        backgroundColor: '#89c9ff'
+        backgroundColor: '#7e57c2' // Updated to fit purple-themed palette
       }]
     },
     options: {
@@ -58,8 +62,10 @@ function renderGenreChart(wishlist) {
 }
 
 /**
- * Renders contact messages in a scrollable list.
- * @param {Array} messages - Array of message objects
+ * Dynamically renders a list of archived contact messages.
+ * Ensures each message is accessible via keyboard navigation.
+ * 
+ * @param {Array} messages - Array of submitted user messages.
  */
 function renderMessages(messages) {
   const list = document.getElementById('smh-library-message-list');
@@ -68,7 +74,7 @@ function renderMessages(messages) {
   list.innerHTML = '';
 
   if (!messages.length) {
-    list.innerHTML = '<p>No messages saved.</p>';
+    list.innerHTML = '<p>No messages available.</p>';
     return;
   }
 
