@@ -5,91 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SMH Library - Dashboard</title>
 
-  <!-- Stylesheets -->
+  <!-- External Stylesheets -->
   <link rel="stylesheet" href="../css/smh-library-styles.css" />
   <link rel="stylesheet" href="../css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
 
-  <!-- Charts -->
+  <!-- Chart.js Library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Skip Link Style -->
+  <!-- Inline Styles for Accessibility (Skip link) -->
   <style>
     .skip-link {
       position: absolute;
       top: -40px;
       left: 0;
-      background: #0055a5;
-      color: white;
-      padding: 0.5rem;
-      z-index: 100;
+      background: #682d63;
+      colour: white;
+      padding: 0.5rem 1rem;
+      z-index: 1000;
       transition: top 0.3s ease;
     }
 
     .skip-link:focus {
       top: 0;
     }
+
+    #smh-library-navbar {
+      min-height: 80px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Accessibility: Skip Navigation -->
+  <!-- Skip Link for Keyboard and Screen Reader Navigation -->
   <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+  <a href="#smh-library-navbar" class="skip-link">Skip to navigation</a>
+  <a href="#smh-library-footer" class="skip-link">Skip to footer</a>
 
-  <!-- Navigation Header -->
+  <!-- Navigation Bar -->
   <header id="smh-library-header" role="banner">
-    <nav id="smh-library-navbar" aria-label="Main Navigation">
+    <nav id="smh-library-navbar" aria-label="Main navigation">
       <div class="smh-library-logo">
-        <img src="../assets/images/logo1.jpg" alt="SMH Library Logo" />
+        <img src="../assets/images/logo1.jpg" alt="SMH Library logo" />
         <span>SMH Library</span>
       </div>
 
-      <button id="smh-library-toggle-menu" aria-label="Toggle Menu">&#9776;</button>
+      <button id="smh-library-toggle-menu" aria-label="Toggle navigation menu">&#9776;</button>
 
+      <!-- Navigation Menu Items -->
       <ul id="smh-library-nav-links">
         <li><a href="../index.html">Home</a></li>
-        <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="favourites.html">Favourites</a></li>
         <li><a href="book-club.html">Book Club</a></li>
+        <li><a href="about-us.html">About Us</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Toast Container -->
+  <!-- Toast Area for Real-time Feedback -->
   <div id="smh-library-toast" role="alert" aria-live="polite"></div>
 
-  <!-- Dashboard Main -->
+  <!-- Main Dashboard Section -->
   <main id="smh-library-main" role="main" aria-labelledby="dashboard-title">
     <section id="smh-library-dashboard">
       <h1 id="dashboard-title">Reading Dashboard</h1>
-      <p>Explore your reading activity and message data collected through your use of SMH Library.</p>
+      <p>This panel summarises reading insights based on your wishlist and contact interactions.</p>
 
-      <!-- Chart Section -->
+      <!-- Wishlist Genre Statistics -->
       <section id="smh-library-dashboard-stats" aria-labelledby="genre-chart-heading">
-        <h2 id="genre-chart-heading">Wishlist Genres Overview</h2>
-        <div style="max-width: 600px; margin: 2rem auto;">
-          <canvas id="smh-library-genre-chart" aria-label="Genre statistics chart" role="img"></canvas>
+        <h2 id="genre-chart-heading">Genre Distribution from Wishlist</h2>
+        <div style="max-width: 640px; margin: 2rem auto;">
+          <canvas id="smh-library-genre-chart" aria-label="Pie chart of genres" role="img"></canvas>
         </div>
       </section>
 
-      <!-- Contact Messages Section -->
+      <!-- User Message Archives -->
       <section id="smh-library-contact-messages" aria-labelledby="messages-heading">
-        <h2 id="messages-heading">Saved Contact Messages</h2>
-        <p>View and manage contact messages received via the contact form.</p>
+        <h2 id="messages-heading">Archived Contact Messages</h2>
+        <p>Review all past submissions from the contact form. These records are stored locally in your browser.</p>
         <div id="smh-library-message-list" aria-live="polite"></div>
       </section>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Website Footer -->
   <footer id="smh-library-footer" role="contentinfo">
-    <p>&copy; 2025 SMH Library. All rights reserved.</p>
+    <p>&copy; 2025 SMH Library. Designed for accessibility and readability.</p>
   </footer>
 
-  <!-- JavaScript Modules -->
-  <script type="module" src="./js/smh-library-dashboard.js"></script>
-  <script type="module" src="./js/smh-library-main.js"></script>
+  <!-- JavaScript Module Scripts -->
+  <script type="module" src="../js/smh-library-dashboard.js"></script>
+  <script type="module" src="../js/smh-library-main.js"></script>
 
 </body>
 </html>
-<!-- End of HTML Document -->
