@@ -1,5 +1,5 @@
 import { smhLibraryStorageGet } from './modules/smh-library-storage.js';
-import { smhLibraryRenderBook } from './modules/smh-library-books.js';
+import { smhLibraryRenderBook } from '../data/books.json';
 import { smhLibraryInitRatings } from './modules/smh-library-ratings.js';
 
 /**
