@@ -1,4 +1,4 @@
-import { smhLibraryLoadBooks, smhLibraryRenderBook } from './modules/smh-library-books.js';
+import { smhLibraryLoadBooks, smhLibraryRenderBook } from '../data/books.json';
 import { smhLibraryFilterBooks } from './modules/smh-library-filter.js';
 import { smhLibraryInitRatings } from './modules/smh-library-ratings.js';
 import { smhLibraryInitContactForm } from './modules/smh-library-contact.js';

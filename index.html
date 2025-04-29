@@ -2,38 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="SMH Library – A dynamic and accessible book discovery platform" />
-  <title>SMH Library | Home</title>
-  <link rel="stylesheet" href="./css/smh-library-dark.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMH Library - Dashboard</title>
+
+  <!-- External Stylesheets -->
   <link rel="stylesheet" href="./css/smh-library-styles.css" />
-  <script type="module" src="./js/smh-library-main.js" defer></script>
+  <link rel="stylesheet" href="./css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
+
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Inline Styles for Accessibility (Skip link) -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: #682d63;
+      color: white;
+      padding: 0.5rem 1rem;
+      z-index: 1000;
+      transition: top 0.3s ease;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+
+    #smh-library-navbar {
+      min-height: 80px;
+    }
+  </style>
 </head>
 <body>
 
-  <!--Preloader for better UX-->
-  <div id="smh-library-preloader" role="alert" aria-live="assertive">
-    <p>Loading...</p>
+  <!-- Skip Link for Keyboard and Screen Reader Navigation -->
+  <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+  <a href="#smh-library-navbar" class="skip-link">Skip to navigation</a>
+  <a href="#smh-library-footer" class="skip-link">Skip to footer</a>
 
-  <!--Accessibility Skip Link-->
-  <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
-  <a href="#smh-library-navbar" class="visually-hidden-focusable">Skip to navigation</a>
-  <a href="#smh-library-footer" class="visually-hidden-focusable">Skip to footer</a>
-  
-  <!--Main Navigation Bar-->
-  <header id="smh-library-navbar" role="banner">
-    <div class="smh-library-logo">
-      <img src="./assets/images/logo1.jpg" alt="SMH Library Logo" />
-      <span>SMH Library</span>
-    </div>
+  <!-- Navigation Bar -->
+  <header id="smh-library-header" role="banner">
+    <nav id="smh-library-navbar" aria-label="Main navigation">
+      <div class="smh-library-logo">
+        <img src="../assets/images/logo1.jpg" alt="SMH Library logo" />
+        <span>SMH Library</span>
+      </div>
 
-    <!--Hamburger toggle for mobile-->
-    <button id="smh-library-toggle-menu" aria-label="Toggle navigation">☰</button>
+      <button id="smh-library-toggle-menu" aria-label="Toggle navigation menu">&#9776;</button>
 
-    <!--Navigation links, reordered per user request-->
-    <nav>
-      <ul id="smh-library-nav-links" role="navigation">
-        <li><a href="index.html">Home</a></li>
+      <!-- Navigation Menu Items -->
+      <ul id="smh-library-nav-links">
+        <li><a href="../index.html">Home</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
         <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="favourites.html">Favourites</a></li>
@@ -43,7 +63,7 @@
     </nav>
   </header>
 
-  <!--Hero Section with Background Video-->
+  <!-- Hero section with video background -->
   <section id="smh-library-hero">
     <video autoplay muted loop id="smh-library-background-video">
       <source src="assets/videos/library-background.mp4" type="video/mp4" />
@@ -55,11 +75,11 @@
     </div>
   </section>
 
-  <!--Main Content Area-->
+  <!-- Main content where search form and book listings appear -->
   <main id="main-content" role="main">
     <h2>Find Your Next Favourite Book</h2>
 
-    <!--Filter Form-->
+    <!-- Form used to filter book search -->
     <form id="smh-library-form" aria-label="Book search form">
       <label for="genre">Genre</label>
       <select name="genre" id="genre">
@@ -85,16 +105,18 @@
       <button type="submit" class="smh-library-btn">Search</button>
     </form>
 
-    <!--Filtered Book Results Render Here-->
+    <!-- Results container dynamically populated by JavaScript -->
     <div id="smh-library-results-container" aria-live="polite"></div>
   </main>
 
-  <!--Toast Notification Component-->
+  <!-- Live toast notifications -->
   <div id="smh-library-toast" role="alert" aria-live="assertive"></div>
 
-  <!--Footer-->
+  <!-- Footer for site information -->
   <footer id="smh-library-footer" role="contentinfo">
     <p>&copy; 2025 SMH Library | Designed for accessibility and discovery</p>
   </footer>
+  <!-- Wishlist Logic Script -->
+  <script type="module" src="./js/smh-library-main.js"></script>
 </body>
 </html>

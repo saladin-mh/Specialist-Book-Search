@@ -3,80 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SMH Library - Your Wishlist</title>
+  <title>SMH Library - Dashboard</title>
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/smh-library-styles.css" />
-  <link rel="stylesheet" href="../css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="./css/smh-library-styles.css" />
+  <link rel="stylesheet" href="./css/smh-library-dark.css" media="(prefers-color-scheme: dark)" />
 
-  <!-- Accessibility: Skip link style -->
+  <!-- Inline Styles for Accessibility (Skip link) -->
   <style>
     .skip-link {
       position: absolute;
       top: -40px;
       left: 0;
-      background: #0055a5;
+      background: #682d63;
       color: white;
-      padding: 0.5rem;
-      z-index: 100;
+      padding: 0.5rem 1rem;
+      z-index: 1000;
       transition: top 0.3s ease;
     }
 
     .skip-link:focus {
       top: 0;
     }
+
+    #smh-library-navbar {
+      min-height: 80px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Accessibility: Skip to main content -->
+  <!-- Skip Link for Keyboard and Screen Reader Navigation -->
   <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+  <a href="#smh-library-navbar" class="skip-link">Skip to navigation</a>
+  <a href="#smh-library-footer" class="skip-link">Skip to footer</a>
 
-  <!-- Navigation Header -->
+  <!-- Navigation Bar -->
   <header id="smh-library-header" role="banner">
-    <nav id="smh-library-navbar" aria-label="Main Navigation">
+    <nav id="smh-library-navbar" aria-label="Main navigation">
       <div class="smh-library-logo">
-        <img src="../assets/images/logo1.jpg" alt="SMH Library Logo" />
+        <img src="../assets/images/logo1.jpg" alt="SMH Library logo" />
         <span>SMH Library</span>
       </div>
 
-      <button id="smh-library-toggle-menu" aria-label="Toggle Menu">&#9776;</button>
+      <button id="smh-library-toggle-menu" aria-label="Toggle navigation menu">&#9776;</button>
 
+      <!-- Navigation Menu Items -->
       <ul id="smh-library-nav-links">
         <li><a href="../index.html">Home</a></li>
-        <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="wishlist.html">Wishlist</a></li>
         <li><a href="favourites.html">Favourites</a></li>
         <li><a href="book-club.html">Book Club</a></li>
+        <li><a href="about-us.html">About Us</a></li>
       </ul>
     </nav>
   </header>
 
-  <!-- Toast container for user notifications -->
+  <!-- Notification element for actions like add/remove -->
   <div id="smh-library-toast" role="alert" aria-live="polite"></div>
 
   <!-- Main Wishlist Section -->
   <main id="smh-library-main" role="main">
     <section id="smh-library-wishlist" aria-labelledby="wishlist-title">
       <h1 id="wishlist-title">Your Wishlist</h1>
-      <p>Below are the books you've saved for later. You can remove them anytime.</p>
-      <p>Click on a book to view more details or remove it from your wishlist.</p>
+      <p>This section displays the books you have saved for future reference.</p>
+      <p>Use the controls to manage your wishlist. Click a book to remove it, or share your collection.</p>
       <div id="smh-library-wishlist-container" aria-live="polite"></div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Website Footer -->
   <footer id="smh-library-footer" role="contentinfo">
-    <p>&copy; 2025 SMH Library. All rights reserved.</p>
+    <p>&copy; 2025 SMH Library. Built with accessibility and user-centred design principles.</p>
   </footer>
 
-  <!-- JS Logic for Wishlist Page -->
+  <!-- Wishlist Logic Script -->
   <script type="module" src="./js/smh-library-wishlist.js"></script>
 
 </body>
 </html>
-<!-- End of HTML Document -->
-<!--
-  This HTML document is structured to provide a clean and accessible user experience.
-  It includes a header with navigation links, a main section for the wishlist, and a footer.
-  The JavaScript file 'smh-library-wishlist.js' is responsible for the dynamic functionality of the wishlist.
