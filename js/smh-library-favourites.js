@@ -1,32 +1,54 @@
-import { smhLibraryStorageGet } from './modules/smh-library-storage.js';
-import { smhLibraryRenderBook } from '../data/books.json';
+// Module imports for data persistence, UI rendering, and accessibility
+import { smhLibraryStorageGet, smhLibraryStorageSet } from './modules/smh-library-storage.js';
+import { smhLibraryRenderBook } from './modules/smh-library-books.js';
 import { smhLibraryInitRatings } from './modules/smh-library-ratings.js';
+import { smhLibraryShowToast } from './modules/smh-library-toast.js';     
+
+// Constant: Key identifier for favourites localStorage item
+const favouritesKey = 'smh-library-favourites';
 
 /**
- * Initialises the favourites page by loading saved favourites
- * from localStorage and rendering each book as a card element.
- * Includes full fade animation and ratings module injection.
+ * Renders the user's saved favourites to the DOM.
+ * Enables interaction for live removal of entries and visual feedback.
  */
-document.addEventListener('DOMContentLoaded', () => {
-  const favorites = smhLibraryStorageGet('smh-library-favourites', []);
+function smhLibraryRenderFavourites() {
   const container = document.getElementById('smh-library-results-container');
+  const favourites = smhLibraryStorageGet(favouritesKey, []);
 
-  // Fallback if no favourites found
-  if (favorites.length === 0) {
-    container.innerHTML = '<p>No favourite books found. 💔</p>';
+  if (!container) return;
+
+  // Empty state: Inform user of no saved favourites
+  if (favourites.length === 0) {
+    container.innerHTML = '<p>No favourite books found.</p>';
     return;
   }
 
-  // Render each favorited book
-  favorites.forEach(book => {
-    const bookCard = smhLibraryRenderBook(book, false, {
-      allowRemoveFavorite: true
-    });
+  container.innerHTML = '';
 
-    bookCard.classList.add('fade-in'); // apply animation
-    container.appendChild(bookCard);
+  // Render each book using the shared rendering logic
+  favourites.forEach(book => {
+    const card = smhLibraryRenderBook(book, false, { allowRemoveFavorite: true });
+    card.classList.add('fade-in');
+    container.appendChild(card);
   });
 
-  // Initialise dynamic star ratings post-render
+  // Activate star rating display for each rendered book
   smhLibraryInitRatings();
+}
+
+/**
+ * Ensures the favourites list loads as soon as the DOM is ready.
+ * Also activates mobile-friendly navigation logic.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  smhLibraryRenderFavourites();
+
+  // Enable responsive navigation toggle
+  const toggle = document.getElementById('smh-library-toggle-menu');
+  const navLinks = document.getElementById('smh-library-nav-links');
+  if (toggle && navLinks) {
+    toggle.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+  }
 });
