@@ -1,21 +1,24 @@
-import { smhLibraryLoadBooks, smhLibraryRenderBook } from '../data/books.json';
+// Import necessary modules for functionality
+import { smhLibraryLoadBooks, smhLibraryRenderBook } from './modules/smh-library-books.js';
 import { smhLibraryFilterBooks } from './modules/smh-library-filter.js';
 import { smhLibraryInitRatings } from './modules/smh-library-ratings.js';
 import { smhLibraryInitContactForm } from './modules/smh-library-contact.js';
 import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
+// Local variable to hold loaded book data
 let smhLibraryBookList = [];
 
 /**
- * Initialises all interactive modules for the homepage.
- * - Loads book data
- * - Handles navigation toggle
- * - Filters books by user preferences
- * - Supports animations and dynamic ratings
+ * Initialises the homepage by:
+ * - Setting up the mobile navigation toggle
+ * - Loading all books into memory
+ * - Handling user search form submission
+ * - Displaying search results with animation and ratings
+ * - Initialising contact form handling
  */
 document.addEventListener('DOMContentLoaded', async () => {
 
-  // Toggle mobile navigation menu
+  // Responsive Navigation: toggles menu visibility on mobile
   const toggle = document.getElementById('smh-library-toggle-menu');
   const navLinks = document.getElementById('smh-library-nav-links');
   if (toggle && navLinks) {
@@ -24,30 +27,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Load book dataset
+  // Load books from the external JSON source
   smhLibraryBookList = await smhLibraryLoadBooks();
 
-  // Hook into search filter form
+  // Hook into the search filter form
   const form = document.getElementById('smh-library-form');
   if (form) {
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
+      e.preventDefault(); // Prevent default form submission behaviour
 
-      // Construct filter criteria from user input
+      // Construct filtering criteria based on user input
       const filters = {
         genre: form.genre.value,
         author: form.author.value.trim().toLowerCase(),
         language: form.language.value.trim().toLowerCase(),
         isbn: form.isbn.value.trim(),
-        year: parseInt(form.year.value) || null
+        year: parseInt(form.year.value, 10) || null
       };
 
-      // Perform book filtering based on criteria
+      // Apply filter logic to the loaded book list
       const results = smhLibraryFilterBooks(smhLibraryBookList, filters);
-      console.log('Filter:', filters);
-      console.log('Results:', results);
+      console.log('Filter Criteria:', filters);
+      console.log('Results Returned:', results);
 
-      // Update results display container
+      // Update the DOM container with filtered book results
       const container = document.getElementById('smh-library-results-container');
       container.innerHTML = '';
 
@@ -56,22 +59,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      // Render filtered books — highlight best match (first)
+      // Render each matching book
       results.forEach((book, index) => {
-        const element = smhLibraryRenderBook(book, index === 0); // Highlight top book
-        element.classList.add('fade-in'); // Entry animation
+        const element = smhLibraryRenderBook(book, index === 0); // Highlight the best match (first book)
+        element.classList.add('fade-in'); // Apply entry animation
         container.appendChild(element);
       });
 
-      // Initialise rating system dynamically
+      // Re-initialise dynamic ratings after DOM update
       smhLibraryInitRatings();
 
-      // Toast notification feedback
+      // Show a toast notification to confirm search results
       smhLibraryShowToast(`${results.length} book(s) found.`);
     });
   }
 
-  // Initialise global modules
-  smhLibraryInitContactForm();  // For contact section
-  smhLibraryInitRatings();      // For default ratings
+  // Always initialise global modules
+  smhLibraryInitContactForm();  // Handle contact form
+  smhLibraryInitRatings();      // Prepare rating components
 });
