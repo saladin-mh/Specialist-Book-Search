@@ -1,55 +1,59 @@
-// SMH Library Module: Handles book data rendering and interaction logic
+/**
+ * SMH Library Module — Book Rendering and Data Loader
+ * This module handles the asynchronous loading of book data
+ * from the local JSON source and provides a render method
+ * to generate structured book cards.
+ */
+
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
 
-
-// Persistent keys for localStorage data
 const wishlistKey = 'smh-library-wishlist';
 const favouritesKey = 'smh-library-favourites';
 
 /**
- * Asynchronously loads the full list of books from the project's JSON dataset.
- * @returns {Promise<Array>} Array of book objects parsed from JSON.
+ * Loads book data from the local `books.json` file.
+ * This function assumes that the file is available and served correctly.
+ * @returns {Promise<Array>} Resolves with parsed book data array
  */
 export async function smhLibraryLoadBooks() {
-  const res = await fetch('./data/books.json');
-  return await res.json();
+  try {
+    const response = await fetch('data/books.json');
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const books = await response.json();
+    return books;
+  } catch (error) {
+    console.error('Failed to load books:', error);
+    return [];
+  }
 }
 
 /**
- * Generates an interactive book card element with appropriate content, styling, and behaviour.
- * @param {Object} book - Book object containing title, author, ISBN, etc.
- * @param {boolean} highlight - Optionally applies a visual highlight class.
- * @param {Object} options - Behavioural flags, e.g. { allowRemoveFavorite: true }
- * @returns {HTMLElement} DOM element representing a complete book entry.
+ * Renders a structured book card using the provided book object.
+ * The card includes meta info, dynamic rating, cover image, and user action buttons.
+ * @param {Object} book - Book data to display
+ * @param {boolean} highlight - Whether to visually highlight the book (top match)
+ * @param {Object} options - Context options (e.g. allowRemove)
+ * @returns {HTMLElement} Rendered DOM element
  */
 export function smhLibraryRenderBook(book, highlight = false, options = {}) {
   const div = document.createElement('div');
-  div.className = 'book fade-in'; // Animation class for entry
-  if (highlight) div.classList.add('highlight'); // Emphasise best match
-
-  // Provide semantic identifier for tracking
+  div.className = `book fade-in${highlight ? ' highlight' : ''}`;
   div.setAttribute('data-smh-library-isbn', book.isbn || '');
+  div.setAttribute('tabindex', '0'); // Accessibility: allow keyboard focus
 
-  // Determine if already favourited
-  const isFavourited = smhLibraryStorageGet(favouritesKey, [])
-    .some(fav => fav.title === book.title);
+  // Parse long descriptions into paragraphs
+  const summaryParagraphs = book.description
+    .split('\n')
+    .filter(p => p.trim() !== '')
+    .slice(0, 2) // only show the first 2 by default
+    .map(p => `<p>${p}</p>`)
+    .join('');
+
+  const isFavourited = smhLibraryStorageGet(favouritesKey, []).some(f => f.title === book.title);
   const favLabel = isFavourited ? '⭐ Favourited' : '💖 Favourite';
 
-  // Parse and display the book description as clean paragraphs
-  let summaryParagraphs = '';
-  if (book.description && typeof book.description === 'string' && book.description.length > 30) {
-    summaryParagraphs = book.description
-      .split('\n')
-      .filter(p => p.trim() !== '')
-      .map(p => `<p>${p.trim()}</p>`)
-      .join('');
-  } else {
-    summaryParagraphs = `<p><em>No summary available for this title.</em></p>`;
-  }
-
-  // Assemble the inner content for the book card
   div.innerHTML = `
-    ${book.cover ? `<img src="${book.cover}" alt="Cover for ${book.title}" class="smh-library-book-cover">` : ''}
+    ${book.cover ? `<img src="${book.cover}" loading="lazy" alt="Cover of ${book.title}" class="smh-library-book-cover">` : ''}
     <h3>${book.title}</h3>
     <p><strong>Author:</strong> ${book.author}</p>
     <p><strong>Genre:</strong> ${book.genre}</p>
@@ -57,26 +61,24 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     <p><strong>Year:</strong> ${book.year}</p>
     <p><strong>ISBN:</strong> ${book.isbn}</p>
     <p><strong>Price:</strong> £${Number(book.price).toFixed(2)}</p>
-    ${summaryParagraphs}
-    <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}"></div>
+    <div class="book-summary">${summaryParagraphs}</div>
+
+    <div class="smh-library-rating" data-smh-library-rating="${book.rating || 0}" aria-label="Rating stars"></div>
 
     <div class="smh-library-actions">
-      ${options.allowRemoveFavorite ? `
-        <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">
-          🗑️ Remove
-        </button>
+      ${options.allowRemoveFavourite ? `
+        <button class="smh-library-btn smh-remove-fav" data-smh-library-remove="${book.title}">🗑️ Remove</button>
       ` : `
-        <button class="smh-library-btn" data-smh-library-add="${book.title}">
-          Add to Wishlist
-        </button>
+        <button class="smh-library-btn" data-smh-library-add="${book.title}">Add to Wishlist</button>
         <button class="smh-library-btn smh-fav-btn ${isFavourited ? 'favourited' : ''}" data-smh-library-fav="${book.title}">
           ${favLabel}
         </button>
       `}
+      ${book.url ? `<button class="smh-library-btn smh-library-share" onclick="navigator.clipboard.writeText('${book.url}')">Share</button>` : ''}
     </div>
   `;
 
-  // Hook: Wishlist interaction
+  // Add to Wishlist Logic
   const addBtn = div.querySelector('[data-smh-library-add]');
   if (addBtn) {
     addBtn.onclick = () => {
@@ -88,7 +90,7 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     };
   }
 
-  // Hook: Favourites interaction
+  // Add to Favourites Logic
   const favBtn = div.querySelector('[data-smh-library-fav]');
   if (favBtn && !isFavourited) {
     favBtn.onclick = () => {
@@ -100,14 +102,14 @@ export function smhLibraryRenderBook(book, highlight = false, options = {}) {
     };
   }
 
-  // Hook: Remove favourite interaction (on favourites.html)
+  // Remove from Favourites Logic
   const removeBtn = div.querySelector('[data-smh-library-remove]');
   if (removeBtn) {
     removeBtn.onclick = () => {
       let favourites = smhLibraryStorageGet(favouritesKey, []);
       favourites = favourites.filter(b => b.title !== book.title);
       smhLibraryStorageSet(favouritesKey, favourites);
-      div.remove(); // Remove element from DOM immediately
+      div.remove();
     };
   }
 
