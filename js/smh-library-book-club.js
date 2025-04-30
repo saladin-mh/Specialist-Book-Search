@@ -1,3 +1,4 @@
+// Dependencies for localStorage management and notifications
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './modules/smh-library-storage.js';
 import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
@@ -14,21 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const user = localStorage.getItem(userKey);
 
-  // If user already logged in, display profile and enable comments
+  // Determine login state and update UI accordingly
   if (user) {
     loginSection.style.display = 'none';
     profileSection.style.display = 'block';
     greeting.textContent = `Welcome back, ${user}!`;
-
     if (form) form.style.display = 'block';
   } else {
     profileSection.style.display = 'none';
     loginSection.style.display = 'block';
-
     if (form) form.style.display = 'none';
   }
 
-  // Handle login form submission
+  // Handle sign-in submission
   if (loginForm) {
     loginForm.onsubmit = (e) => {
       e.preventDefault();
@@ -37,20 +36,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       localStorage.setItem(userKey, name);
       smhLibraryShowToast(`Welcome, ${name}!`);
-      location.reload(); // Refresh UI
+      location.reload(); // Refresh to update UI state
     };
   }
 
-  // Handle logout
+  // Handle logout interaction
   if (logoutBtn) {
     logoutBtn.onclick = () => {
       localStorage.removeItem(userKey);
-      smhLibraryShowToast('You have been logged out.');
-      location.reload();
+      smhLibraryShowToast('You have been signed out.');
+      location.reload(); // Refresh to update UI state
     };
   }
 
-  // Handle comment submission
+  // Handle new comment submission
   if (form) {
     form.onsubmit = (e) => {
       e.preventDefault();
@@ -66,22 +65,23 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const comments = smhLibraryStorageGet(commentsKey, []);
-      comments.unshift(newComment);
+      comments.unshift(newComment); // Most recent comment first
       smhLibraryStorageSet(commentsKey, comments);
 
       form.reset();
-      smhLibraryShowToast('Your comment has been posted!');
+      smhLibraryShowToast('Your comment has been submitted.');
       renderComments(comments);
     };
 
-    // Load comments initially
+    // Initial loading of previously submitted comments
     const storedComments = smhLibraryStorageGet(commentsKey, []);
     renderComments(storedComments);
   }
 });
 
 /**
- * Displays the comment history
+ * Renders a list of stored book club comments in accessible format.
+ * @param {Array} comments - Array of comment objects from storage.
  */
 function renderComments(comments) {
   const list = document.getElementById('smh-library-comments-list');
