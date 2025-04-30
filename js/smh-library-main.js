@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Load books from the external JSON source
   smhLibraryBookList = await smhLibraryLoadBooks();
+  console.log('Loaded books:', smhLibraryBookList); // ✅ Debug line added
 
   // Hook into the search filter form
   const form = document.getElementById('smh-library-form');
