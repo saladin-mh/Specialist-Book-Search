@@ -22,7 +22,7 @@ SMH Library allows users to search and filter books by genre, author, ISBN, lang
 
 ---
 
-## 🛠 Technologies Used
+## Technologies Used
 
 - HTML5 + Semantic Tags
 - CSS3 (Responsive + Theming)
