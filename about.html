@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About & Contact — SMH Library</title>
+  <link rel="stylesheet" href="css/smh-library-styles.css">
+  <script type="module" src="js/modules/smh-library-contact.js" defer></script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#smh-library-navbar" class="skip-link">Skip to navigation</a>
+  <a href="#smh-library-footer" class="skip-link">Skip to footer</a>
+
+  <nav id="smh-library-navbar" role="navigation" aria-label="Main navigation">
+    <div class="smh-library-logo">
+      <img src="./assets/images/logo1.jpg" alt="SMH Library Logo" />
+      <span>SMH Library</span>
+    </div>
+    <button id="smh-library-toggle-menu" aria-label="Toggle navigation">&#9776;</button>
+    <ul id="smh-library-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="favourites.html">Favourites</a></li>
+      <li><a href="book-club.html">Book Club</a></li>
+      <li><a href="about.html" aria-current="page">About Us</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <section>
+      <h1>About SMH Library</h1>
+      <p>
+        SMH Library is a modern, accessible, and user-focused digital reading hub created to help readers discover,
+        save, and share their favourite books. With a dynamic filtering system, personalised recommendations,
+        community features, and analytical dashboards, SMH Library merges the convenience of online bookstores
+        with the richness of a passionate book community.
+      </p>
+    </section>
+
+    <section>
+      <h2>Contact Us</h2>
+      <form id="smh-library-contact-form" aria-labelledby="contact-title">
+        <fieldset>
+          <legend id="contact-title">Send us a message</legend>
+
+          <label for="contact-name">Name</label>
+          <input type="text" id="contact-name" name="name" required />
+
+          <label for="contact-email">Email</label>
+          <input type="email" id="contact-email" name="email" required />
+
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="5" required></textarea>
+
+          <button type="submit" class="smh-library-btn">Submit</button>
+        </fieldset>
+      </form>
+    </section>
+  </main>
+
+  <footer id="smh-library-footer">
+    <p>&copy; 2025 SMH Library | All rights reserved</p>
+  </footer>
+
+</body>
+</html>
