@@ -1,6 +1,7 @@
 // SMH Library Module: Handles book data rendering and interaction logic
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
 
+
 // Persistent keys for localStorage data
 const wishlistKey = 'smh-library-wishlist';
 const favouritesKey = 'smh-library-favourites';
@@ -10,7 +11,7 @@ const favouritesKey = 'smh-library-favourites';
  * @returns {Promise<Array>} Array of book objects parsed from JSON.
  */
 export async function smhLibraryLoadBooks() {
-  const res = await fetch('data/books.json');
+  const res = await fetch('./data/books.json');
   return await res.json();
 }
 
