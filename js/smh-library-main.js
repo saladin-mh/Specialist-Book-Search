@@ -1,81 +1,106 @@
-// Import necessary modules for functionality
+// Core imports for SMH Library functionality
 import { smhLibraryLoadBooks, smhLibraryRenderBook } from './modules/smh-library-books.js';
 import { smhLibraryFilterBooks } from './modules/smh-library-filter.js';
 import { smhLibraryInitRatings } from './modules/smh-library-ratings.js';
 import { smhLibraryInitContactForm } from './modules/smh-library-contact.js';
 import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
-// Local variable to hold loaded book data
-let smhLibraryBookList = [];
+let smhLibraryBookList = []; // Holds all loaded books in memory
 
 /**
- * Initialises the homepage by:
- * - Setting up the mobile navigation toggle
- * - Loading all books into memory
- * - Handling user search form submission
- * - Displaying search results with animation and ratings
- * - Initialising contact form handling
+ * Sets up the mobile navigation toggle with ARIA accessibility
  */
-document.addEventListener('DOMContentLoaded', async () => {
-
-  // Responsive Navigation: toggles menu visibility on mobile
+function setupNavigation() {
   const toggle = document.getElementById('smh-library-toggle-menu');
   const navLinks = document.getElementById('smh-library-nav-links');
   if (toggle && navLinks) {
+    toggle.setAttribute('aria-expanded', 'false');
     toggle.addEventListener('click', () => {
-      navLinks.classList.toggle('show');
+      const isVisible = navLinks.classList.toggle('show');
+      toggle.setAttribute('aria-expanded', isVisible);
     });
   }
+}
 
-  // Load books from the external JSON source
-  smhLibraryBookList = await smhLibraryLoadBooks();
-  console.log('Loaded books:', smhLibraryBookList); // ✅ Debug line added
-
-  // Hook into the search filter form
+/**
+ * Applies the search logic with input validation, debouncing, filtering and DOM rendering
+ */
+function setupSearchForm() {
   const form = document.getElementById('smh-library-form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault(); // Prevent default form submission behaviour
+  const container = document.getElementById('smh-library-results-container');
+  let debounceTimer;
 
-      // Construct filtering criteria based on user input
-      const filters = {
-        genre: form.genre.value,
-        author: form.author.value.trim().toLowerCase(),
-        language: form.language.value.trim().toLowerCase(),
-        isbn: form.isbn.value.trim(),
-        year: parseInt(form.year.value, 10) || null
-      };
+  if (!form || !container) return;
 
-      // Apply filter logic to the loaded book list
-      const results = smhLibraryFilterBooks(smhLibraryBookList, filters);
-      console.log('Filter Criteria:', filters);
-      console.log('Results Returned:', results);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    clearTimeout(debounceTimer);
 
-      // Update the DOM container with filtered book results
-      const container = document.getElementById('smh-library-results-container');
-      container.innerHTML = '';
-
-      if (results.length === 0) {
-        container.innerHTML = '<p>No matching books found.</p>';
+    debounceTimer = setTimeout(() => {
+      // Validate year
+      const yearInput = form.year.value;
+      const year = parseInt(yearInput, 10);
+      if (yearInput && isNaN(year)) {
+        smhLibraryShowToast('Please enter a valid year.');
         return;
       }
 
-      // Render each matching book
-      results.forEach((book, index) => {
-        const element = smhLibraryRenderBook(book, index === 0); // Highlight the best match (first book)
-        element.classList.add('fade-in'); // Apply entry animation
-        container.appendChild(element);
-      });
+      const filters = {
+        genre: form.genre.value.trim().toLowerCase(),
+        author: form.author.value.trim().toLowerCase(),
+        language: form.language.value.trim().toLowerCase(),
+        isbn: form.isbn.value.trim(),
+        year: year || null
+      };
 
-      // Re-initialise dynamic ratings after DOM update
-      smhLibraryInitRatings();
+      const results = smhLibraryFilterBooks(smhLibraryBookList, filters);
+      console.log('Filter:', filters);
+      console.log('Results:', results);
 
-      // Show a toast notification to confirm search results
-      smhLibraryShowToast(`${results.length} book(s) found.`);
-    });
+      // Show loading indicator
+      container.innerHTML = '<div class="loading-spinner"></div>';
+
+      // Render book cards after filtering
+      setTimeout(() => {
+        container.innerHTML = '';
+        if (results.length === 0) {
+          container.innerHTML = '<p>No matching books found.</p>';
+          return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        results.forEach((book, index) => {
+          const card = smhLibraryRenderBook(book, index === 0); // Highlight first match
+          const img = card.querySelector('img');
+          if (img) img.loading = 'lazy'; // Lazy load images
+          card.classList.add('fade-in');
+          fragment.appendChild(card);
+        });
+
+        container.appendChild(fragment);
+        smhLibraryInitRatings(); // Init rating stars per book
+        smhLibraryShowToast(`${results.length} book(s) found.`);
+      }, 400);
+    }, 300); // Debounce threshold
+  });
+}
+
+/**
+ * Main entry point after DOM has fully loaded
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+  setupNavigation();
+  setupSearchForm();
+  smhLibraryInitContactForm();
+
+  // Load book data with error handling
+  try {
+    smhLibraryBookList = await smhLibraryLoadBooks();
+    console.log('Loaded books:', smhLibraryBookList);
+  } catch (error) {
+    console.error('Failed to load books:', error);
+    smhLibraryShowToast('Error loading books. Please try again later.');
   }
 
-  // Always initialise global modules
-  smhLibraryInitContactForm();  // Handle contact form
-  smhLibraryInitRatings();      // Prepare rating components
+  smhLibraryInitRatings(); // Fallback rating init
 });
