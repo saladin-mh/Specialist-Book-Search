@@ -140,6 +140,13 @@ main {
   height: auto;
 }
 
+canvas {
+  max-width: 500px;  /* or any smaller value */
+  max-height: 500px;
+  margin: 0 auto;
+  display: block;
+}
+
 
 /* Form Styles */
 form {
