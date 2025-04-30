@@ -1,8 +1,13 @@
 /**
- * SMH Library: Load reusable HTML partials into the current page.
- * This function dynamically injects navigation, footer, and toast regions
- * into container elements from external HTML files. Designed to support
- * consistent layout reuse across multiple pages.
+ * SMH Library: Load reusable HTML partials into the current document.
+ * 
+ * This utility injects key components such as navigation, footer, and toast messages
+ * into designated placeholder elements, maintaining layout consistency across all pages.
+ *
+ * Advantages:
+ * - Reduces code repetition and promotes DRY principle.
+ * - Ensures consistent updates across navigation and layout components.
+ * - Uses asynchronous fetch with error resilience and developer feedback.
  */
 export async function smhLibraryLoadPartials() {
   const includes = {
@@ -13,16 +18,24 @@ export async function smhLibraryLoadPartials() {
 
   for (const [selector, url] of Object.entries(includes)) {
     const target = document.querySelector(selector);
+
+    // Proceed only if the target container is found
     if (target) {
       try {
         const response = await fetch(url);
+
+        // Report failure to load partial to the developer
         if (!response.ok) {
-          console.warn(`SMH Library: Could not load partial (${url}) - HTTP ${response.status}`);
+          console.warn(`SMH Library: Could not load partial from ${url} – HTTP ${response.status}`);
           continue;
         }
+
+        // Inject fetched HTML into the target container
         const html = await response.text();
         target.innerHTML = html;
+
       } catch (err) {
+        // Handle network or permission-related fetch errors gracefully
         console.error(`SMH Library: Failed to load partial: ${url}`, err);
       }
     }
