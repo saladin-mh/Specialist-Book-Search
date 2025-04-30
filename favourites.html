@@ -3,81 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SMH Library – Favourites</title>
-
-  <!-- Primary Stylesheets -->
-  <link rel="stylesheet" href="./css/smh-library-dark.css"/>
-  <link rel="stylesheet" href="./css/smh-library-styles.css" media="(prefers-color-scheme: dark)" />
-
-  <!-- Skip Link Styling -->
-  <style>
-   .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: #682d63;
-      color: white;
-      padding: 0.5rem 1rem;
-      z-index: 1000;
-      transition: top 0.3s ease;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-
-    #smh-library-navbar {
-      min-height: 80px;
-    }
-  </style>
+  <title>Favourites — SMH Library</title>
+  <link rel="stylesheet" href="css/smh-library-styles.css" />
+  <script type="module" src="js/smh-library-favourites.js" defer></script>
 </head>
 <body>
 
-  <!-- Skip to Content Accessibility -->
-  <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <a href="#smh-library-navbar" class="skip-link">Skip to navigation</a>
   <a href="#smh-library-footer" class="skip-link">Skip to footer</a>
 
-  <!-- Site Header and Navigation -->
-  <header id="smh-library-header" role="banner">
-    <nav id="smh-library-navbar" aria-label="Main Navigation">
-      <div class="smh-library-logo">
-        <img src="assets/images/logo1.jpg" alt="SMH Library Logo" />
-        <span>SMH Library</span>
-      </div>
+  <nav id="smh-library-navbar" role="navigation" aria-label="Main navigation">
+    <div class="smh-library-logo">
+      <img src="./assets/images/logo1.jpg" alt="SMH Library Logo" />
+      <span>SMH Library</span>
+    </div>
+    <button id="smh-library-toggle-menu" aria-label="Toggle menu">&#9776;</button>
+    <ul id="smh-library-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="favourites.html" aria-current="page">Favourites</a></li>
+      <li><a href="book-club.html">Book Club</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
 
-      <button id="smh-library-toggle-menu" aria-label="Toggle Menu">&#9776;</button>
+  <main id="main-content">
+    <h1>Your Favourite Books</h1>
+    <p>These are the books you’ve saved as favourites. You can export them or remove them at any time.</p>
 
-      <ul id="smh-library-nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="wishlist.html">Wishlist</a></li>
-        <li><a href="favourites.html" aria-current="page">Favourites</a></li>
-        <li><a href="book-club.html">Book Club</a></li>
-        <li><a href="about-us.html">About Us</a></li>
-      </ul>
-    </nav>
-  </header>
+    <div style="margin-bottom: 1rem;">
+      <button id="smh-library-export-favourites" class="smh-library-btn">Download List</button>
+      <button id="smh-library-share-favourites" class="smh-library-btn smh-fav-btn">Copy to Clipboard</button>
+    </div>
 
-  <!-- Toast Notification Container -->
-  <div id="smh-library-toast" role="alert" aria-live="polite"></div>
-
-  <!-- Main Content Area for Favourites -->
-  <main id="smh-library-main" role="main" aria-labelledby="favourites-heading">
-    <section id="smh-library-favourites" aria-label="Favourite books section">
-      <h1 id="favourites-heading">Your Favourite Books</h1>
-      <p>This page displays books you have marked as favourites. You may remove books at any time using the controls below.</p>
-      <div id="smh-library-results-container" aria-live="polite"></div>
-    </section>
+    <div id="smh-library-results-container" class="fade-in"></div>
   </main>
 
-  <!-- Footer with Attribution -->
-  <footer id="smh-library-footer" role="contentinfo">
-    <p>&copy; 2025 SMH Library. Designed for accessibility, usability, and clarity.</p>
+  <footer id="smh-library-footer">
+    <p>&copy; 2025 SMH Library | All rights reserved</p>
   </footer>
-
-  <!-- JavaScript Logic for Favourites Management -->
-  <script type="module" src="./js/smh-library-favourites.js"></script>
 
 </body>
 </html>
