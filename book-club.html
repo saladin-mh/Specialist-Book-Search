@@ -3,111 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SMH Library – Book Club</title>
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="./css/smh-library-dark.css" />
-  <link rel="stylesheet" href="./css/smh-library-styles.css" media="(prefers-color-scheme: dark)" />
-
-  <!-- Accessibility: Skip Link Style -->
-  <style>
- .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 0;
-      background: #682d63;
-      color: white;
-      padding: 0.5rem 1rem;
-      z-index: 1000;
-      transition: top 0.3s ease;
-    }
-
-    .skip-link:focus {
-      top: 0;
-    }
-
-    #smh-library-navbar {
-      min-height: 80px;
-    }
-  </style>
+  <title>Book Club — SMH Library</title>
+  <link rel="stylesheet" href="css/smh-library-styles.css">
+  <script type="module" src="js/smh-library-book-club.js" defer></script>
 </head>
 <body>
 
-  <!-- Skip to main content for keyboard users -->
-  <a href="#smh-library-main" class="skip-link">Skip to main content</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <a href="#smh-library-navbar" class="skip-link">Skip to navigation</a>
   <a href="#smh-library-footer" class="skip-link">Skip to footer</a>
 
-  <!-- Navigation Header -->
-  <header id="smh-library-header" role="banner">
-    <nav id="smh-library-navbar" aria-label="Main Navigation">
-      <div class="smh-library-logo">
-        <img src="assets/images/logo1.jpg" alt="SMH Library Logo" />
-        <span>SMH Library</span>
-      </div>
+  <nav id="smh-library-navbar" role="navigation" aria-label="Main navigation">
+    <div class="smh-library-logo">
+      <img src="./assets/images/logo1.jpg" alt="SMH Library Logo" />
+      <span>SMH Library</span>
+    </div>
+    <button id="smh-library-toggle-menu" aria-label="Toggle navigation">&#9776;</button>
+    <ul id="smh-library-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="favourites.html">Favourites</a></li>
+      <li><a href="book-club.html" aria-current="page">Book Club</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
 
-      <button id="smh-library-toggle-menu" aria-label="Toggle menu">&#9776;</button>
+  <main id="main-content">
+    <header>
+      <h1>Join the Book Club</h1>
+      <p>Engage with fellow readers, discuss your favourite titles, and share reviews.</p>
+    </header>
 
-      <ul id="smh-library-nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="dashboard.html">Dashboard</a></li>
-        <li><a href="wishlist.html">Wishlist</a></li>
-        <li><a href="favourites.html">Favourites</a></li>
-        <li><a href="book-club.html" aria-current="page">Book Club</a></li>
-        <li><a href="about-us.html">About Us</a></li>
-      </ul>
-    </nav>
-  </header>
+    <section>
+      <h2>Create an Account</h2>
+      <form id="smh-library-login-form" aria-labelledby="login-title">
+        <fieldset>
+          <legend id="login-title">Login Details</legend>
 
-  <!-- Toast Notification Area -->
-  <div id="smh-library-toast" role="alert" aria-live="polite"></div>
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
 
-  <!-- Main Book Club Section -->
-  <main id="smh-library-main" role="main">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
 
-    <!-- Section Header -->
-    <section id="smh-library-club-header">
-      <h1>SMH Library Book Club</h1>
-      <p>Join the conversation, share your thoughts, and connect with fellow readers.</p>
-    </section>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
 
-    <!-- Sign-in Form -->
-    <section id="smh-library-login-section">
-      <h2>Sign in to Participate</h2>
-      <form id="smh-library-login-form" aria-label="User sign-in form">
-        <label for="username">Name:</label>
-        <input type="text" id="username" name="username" required placeholder="Enter your name" />
-        <button type="submit" class="smh-library-btn">Login</button>
+          <button type="submit" class="smh-library-btn">Register</button>
+        </fieldset>
       </form>
     </section>
 
-    <!-- User Profile Display -->
-    <section id="smh-library-profile-section" style="display: none;">
-      <p id="smh-library-greeting"></p>
-      <button id="smh-library-logout" class="smh-library-btn smh-remove-fav">Logout</button>
-    </section>
-
-    <!-- Book Club Comments -->
-    <section id="smh-library-club-content">
-      <h2>Share Your Thoughts</h2>
-      <form id="smh-library-comment-form" aria-label="Comment submission form">
-        <label for="message">Comment:</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
-        <button type="submit" class="smh-library-btn">Post Comment</button>
-      </form>
-
-      <div id="smh-library-comments-list" aria-live="polite"></div>
+    <section>
+      <h2>About the Book Club</h2>
+      <p>
+        The SMH Book Club connects passionate readers and promotes literary discussion.
+        Members can suggest books, organise virtual meet-ups, and share recommendations.
+      </p>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer id="smh-library-footer" role="contentinfo">
-    <p>&copy; 2025 SMH Library. Built to empower and connect readers.</p>
+  <footer id="smh-library-footer">
+    <p>&copy; 2025 SMH Library | All rights reserved</p>
   </footer>
-
-  <!-- JavaScript Modules -->
-  <script type="module" src="./js/smh-library-book-club.js"></script>
-  <script type="module" src="./js/smh-library-main.js"></script>
 
 </body>
 </html>
