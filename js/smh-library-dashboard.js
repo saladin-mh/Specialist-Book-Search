@@ -1,95 +1,65 @@
-// Import necessary modules
+/**
+ * SMH Library — Dashboard Visualisation Script
+ * Displays analytics based on stored user data (favourites).
+ */
+
 import { smhLibraryStorageGet } from './modules/smh-library-storage.js';
-import { smhLibraryShowToast } from './modules/smh-library-toast.js';
 
-/**
- * Main Initialisation:
- * Loads dashboard visualisations and message archives upon page load.
- */
 document.addEventListener('DOMContentLoaded', () => {
-  const wishlist = smhLibraryStorageGet('smh-library-wishlist', []);
-  const messages = smhLibraryStorageGet('smh-library-contact-messages', []);
+  const favourites = smhLibraryStorageGet('smh-library-favourites', []);
 
-  renderGenreChart(wishlist);
-  renderMessages(messages);
-});
-
-/**
- * Renders a bar chart summarising the number of books per genre in the wishlist.
- * Utilises Chart.js for dynamic and accessible visualisation.
- * 
- * @param {Array} wishlist - The array containing wishlist book entries.
- */
-function renderGenreChart(wishlist) {
-  const ctx = document.getElementById('smh-library-genre-chart');
-  if (!ctx || !window.Chart) return;
-
-  if (wishlist.length === 0) {
-    smhLibraryShowToast('No data found in wishlist.');
-    return;
+  // Total count
+  const totalCountElement = document.getElementById('total-books-count');
+  if (totalCountElement) {
+    totalCountElement.textContent = favourites.length.toString();
   }
 
-  // Generate a frequency count of books per genre
-  const genreStats = wishlist.reduce((accumulator, book) => {
-    accumulator[book.genre] = (accumulator[book.genre] || 0) + 1;
-    return accumulator;
-  }, {});
+  // Genre distribution chart (Pie)
+  const genreCounts = {};
+  favourites.forEach(book => {
+    const genre = book.genre || 'Other';
+    genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+  });
 
-  // Create the bar chart
-  new Chart(ctx, {
-    type: 'bar',
+  const genreCtx = document.getElementById('genreChart').getContext('2d');
+  new Chart(genreCtx, {
+    type: 'pie',
     data: {
-      labels: Object.keys(genreStats),
+      labels: Object.keys(genreCounts),
       datasets: [{
-        label: 'Number of Books per Genre',
-        data: Object.values(genreStats),
-        backgroundColor: '#7e57c2' // Updated to fit purple-themed palette
+        label: 'Genres',
+        data: Object.values(genreCounts),
+        backgroundColor: [
+          '#6a0dad', '#3498db', '#2ecc71', '#f1c40f', '#e67e22', '#e74c3c'
+        ],
+        borderWidth: 1
       }]
     },
     options: {
       responsive: true,
       plugins: {
-        legend: { display: false }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: { precision: 0 }
-        }
+        legend: { position: 'bottom' }
       }
     }
   });
-}
 
-/**
- * Dynamically renders a list of archived contact messages.
- * Ensures each message is accessible via keyboard navigation.
- * 
- * @param {Array} messages - Array of submitted user messages.
- */
-function renderMessages(messages) {
-  const list = document.getElementById('smh-library-message-list');
-  if (!list) return;
-
-  list.innerHTML = '';
-
-  if (!messages.length) {
-    list.innerHTML = '<p>No messages available.</p>';
-    return;
-  }
-
-  messages.forEach(msg => {
-    const div = document.createElement('div');
-    div.className = 'book';
-    div.setAttribute('role', 'article');
-    div.setAttribute('tabindex', '0');
-    div.setAttribute('aria-label', `Message from ${msg.name}, email ${msg.email}`);
-
-    div.innerHTML = `
-      <p><strong>${msg.name}</strong> (${msg.email})</p>
-      <p>${msg.message}</p>
-    `;
-
-    list.appendChild(div);
+  // Activity chart (Dummy Data - Bar)
+  const readingCtx = document.getElementById('readingChart').getContext('2d');
+  new Chart(readingCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+      datasets: [{
+        label: 'Books Added to Favourites',
+        data: [3, 6, 2, 4], // Replace with real data if tracking over time
+        backgroundColor: '#6a0dad'
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
   });
-}
+});
