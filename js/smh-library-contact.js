@@ -1,16 +1,17 @@
+// Import localStorage helpers and toast notification system
 import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
 import { smhLibraryShowToast } from './smh-library-toast.js';
 
 /**
- * Initialises the contact form with validation and localStorage support.
- * Captures name, email, and message inputs and stores the data in localStorage.
- * Ensures that invalid or empty inputs are not processed.
+ * Initialises the contact form functionality.
+ * Handles form submission with validation, accessibility support,
+ * and localStorage-based archiving of contact messages.
  */
 export function smhLibraryInitContactForm() {
   const form = document.getElementById('smh-library-contact-form');
   if (!form) return;
 
-  // Accessibility: status output for screen readers
+  // Accessibility enhancement: hidden live region for screen reader updates
   const ariaStatus = document.createElement('div');
   ariaStatus.setAttribute('aria-live', 'polite');
   ariaStatus.setAttribute('role', 'status');
@@ -18,31 +19,31 @@ export function smhLibraryInitContactForm() {
   ariaStatus.style.left = '-9999px';
   form.appendChild(ariaStatus);
 
-  // Event-driven form handler
+  // Event listener to process and validate contact submission
   form.onsubmit = (e) => {
     e.preventDefault();
 
-    // Extract and sanitize form data
+    // Extract and sanitise user inputs
     const name = form.name.value.trim();
     const email = form.email.value.trim();
     const message = form.message.value.trim();
 
-    // Basic validation
+    // Required fields check
     if (!name || !email || !message) {
       smhLibraryShowToast('Please complete all fields.');
       ariaStatus.textContent = 'Form submission failed. Required fields missing.';
       return;
     }
 
-    // Email format validation (regex-based)
+    // Email validation using standard regex pattern
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      smhLibraryShowToast('Invalid email format.');
-      ariaStatus.textContent = 'Form submission failed. Invalid email format.';
+      smhLibraryShowToast('Please enter a valid email address.');
+      ariaStatus.textContent = 'Form submission failed. Invalid email address format.';
       return;
     }
 
-    // Construct message object
+    // Construct contact message object
     const msg = {
       name,
       email,
@@ -50,14 +51,14 @@ export function smhLibraryInitContactForm() {
       date: new Date().toISOString()
     };
 
-    // Retrieve, update, and persist message list
+    // Retrieve, append, and persist contact messages in localStorage
     const savedMessages = smhLibraryStorageGet('smh-library-contact-messages', []);
     savedMessages.push(msg);
     smhLibraryStorageSet('smh-library-contact-messages', savedMessages);
 
-    // Feedback
+    // Clear form and provide user feedback
     form.reset();
     smhLibraryShowToast('Message sent successfully!');
-    ariaStatus.textContent = 'Your message has been sent.';
+    ariaStatus.textContent = 'Your message has been successfully submitted.';
   };
 }
