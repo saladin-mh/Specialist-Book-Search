@@ -1,64 +1,45 @@
-// Import localStorage helpers and toast notification system
-import { smhLibraryStorageGet, smhLibraryStorageSet } from './smh-library-storage.js';
-import { smhLibraryShowToast } from './smh-library-toast.js';
-
 /**
- * Initialises the contact form functionality.
- * Handles form submission with validation, accessibility support,
- * and localStorage-based archiving of contact messages.
+ * SMH Library — Contact Form Script
+ * Handles user input, validation, and interactive feedback for the contact form
+ * Fully client-side; suitable for simulation and academic projects
  */
+
+
+// Existing code in smh-library-contact.js
 export function smhLibraryInitContactForm() {
-  const form = document.getElementById('smh-library-contact-form');
-  if (!form) return;
-
-  // Accessibility enhancement: hidden live region for screen reader updates
-  const ariaStatus = document.createElement('div');
-  ariaStatus.setAttribute('aria-live', 'polite');
-  ariaStatus.setAttribute('role', 'status');
-  ariaStatus.style.position = 'absolute';
-  ariaStatus.style.left = '-9999px';
-  form.appendChild(ariaStatus);
-
-  // Event listener to process and validate contact submission
-  form.onsubmit = (e) => {
-    e.preventDefault();
-
-    // Extract and sanitise user inputs
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
-
-    // Required fields check
-    if (!name || !email || !message) {
-      smhLibraryShowToast('Please complete all fields.');
-      ariaStatus.textContent = 'Form submission failed. Required fields missing.';
-      return;
-    }
-
-    // Email validation using standard regex pattern
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      smhLibraryShowToast('Please enter a valid email address.');
-      ariaStatus.textContent = 'Form submission failed. Invalid email address format.';
-      return;
-    }
-
-    // Construct contact message object
-    const msg = {
-      name,
-      email,
-      message,
-      date: new Date().toISOString()
-    };
-
-    // Retrieve, append, and persist contact messages in localStorage
-    const savedMessages = smhLibraryStorageGet('smh-library-contact-messages', []);
-    savedMessages.push(msg);
-    smhLibraryStorageSet('smh-library-contact-messages', savedMessages);
-
-    // Clear form and provide user feedback
-    form.reset();
-    smhLibraryShowToast('Message sent successfully!');
-    ariaStatus.textContent = 'Your message has been successfully submitted.';
-  };
+  // Implementation of the function
+  console.log('Contact form initialized');
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('smh-library-contact-form');
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Retrieve values from form fields
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      // Simple client-side validation
+      if (!name || !email || !message) {
+        alert('Please complete all fields before submitting.');
+        return;
+      }
+
+      // Display a basic feedback message
+      const feedback = document.createElement('div');
+      feedback.setAttribute('role', 'status');
+      feedback.setAttribute('aria-live', 'polite');
+      feedback.className = 'fade-in';
+      feedback.innerHTML = `
+        <p>Thank you, <strong>${name}</strong>. Your message has been received.</p>
+        <p>We’ll be in touch via <strong>${email}</strong> as soon as possible.</p>
+      `;
+
+      // Replace the form content with the feedback message
+      form.replaceWith(feedback);
+    });
+  }
+});
