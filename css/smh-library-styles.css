@@ -1,7 +1,6 @@
-/* SMH Library: Root CSS Variables (Purple Theming) */
 :root {
-  --smh-primary: #6a0dad;       /* Main theme colour: purple */
-  --smh-accent: #efe6fa;        /* Accent background shade */
+  --smh-primary: #6a0dad;
+  --smh-accent: #efe6fa;
   --smh-bg: #ffffff;
   --smh-text: #222;
   --smh-light: #f5f5f5;
@@ -12,13 +11,14 @@
   --smh-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Universal box model reset */
+/* Universal reset */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* Body and Typography */
 body {
   font-family: 'Segoe UI', sans-serif;
   font-size: 1rem;
@@ -36,14 +36,14 @@ a {
   text-decoration: none;
 }
 
-/* Central layout wrapper */
+/* Layout Wrapper */
 main {
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: auto;
 }
 
-/* Navigation bar styling */
+/* Navigation */
 #smh-library-navbar {
   display: flex;
   align-items: center;
@@ -52,6 +52,7 @@ main {
   padding: 1rem;
   background: var(--smh-primary);
   color: white;
+  min-height: 80px;
 }
 
 .smh-library-logo {
@@ -59,19 +60,67 @@ main {
   align-items: center;
   gap: 10px;
 }
-
 .smh-library-logo img {
-  width: 40px;
+  width: 48px;
   height: auto;
 }
 
 #smh-library-navbar a {
   color: white;
   font-weight: bold;
-  text-decoration: none;
 }
 
-/* Button design */
+/* Navigation links and toggle */
+#smh-library-navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+}
+#smh-library-toggle-menu {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  #smh-library-navbar ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--smh-primary);
+    margin-top: 1rem;
+  }
+
+  #smh-library-navbar ul.show {
+    display: flex;
+  }
+
+  #smh-library-toggle-menu {
+    display: block;
+  }
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--smh-primary);
+  color: white;
+  padding: 0.5rem;
+  z-index: 100;
+  transition: top 0.3s ease;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Buttons */
 .smh-library-btn {
   background-color: var(--smh-primary);
   color: white;
@@ -82,17 +131,35 @@ main {
   cursor: pointer;
   transition: background 0.2s ease;
 }
-
 .smh-library-btn:hover {
-  background-color: #530b9e; /* deeper purple on hover */
+  background-color: #530b9e;
 }
 
-/* Form input styles */
+/* Action-specific buttons */
+.smh-library-btn[data-smh-library-add] {
+  background-color: #27ae60;
+}
+.smh-library-btn[data-smh-library-add]:hover {
+  background-color: #1e8449;
+}
+.smh-library-btn.smh-fav-btn {
+  background-color: #3498db;
+}
+.smh-library-btn.smh-fav-btn:hover {
+  background-color: #2c80b4;
+}
+.smh-library-btn.smh-remove-fav {
+  background-color: #e74c3c;
+}
+.smh-library-btn.smh-remove-fav:hover {
+  background-color: #c0392b;
+}
+
+/* Form controls */
 form {
   display: grid;
   gap: 1rem;
 }
-
 input, select, textarea {
   padding: 0.6rem;
   font-size: 1rem;
@@ -101,7 +168,7 @@ input, select, textarea {
   width: 100%;
 }
 
-/* Responsive Book Grid */
+/* Book Results Grid */
 #smh-library-results-container {
   margin-top: 2rem;
   display: grid;
@@ -109,20 +176,33 @@ input, select, textarea {
   gap: 1.5rem;
 }
 
+/* Book Card */
 .book {
   background: var(--smh-light);
   padding: 1rem;
   border-left: 5px solid var(--smh-primary);
   border-radius: var(--smh-radius);
   box-shadow: var(--smh-shadow);
+  animation: fadeSlideUp 0.4s ease-out;
 }
-
 .book.highlight {
   border-left-color: var(--smh-success);
   background: #e9fbe5;
 }
 
-/* Toast message styling */
+/* Ratings */
+.smh-library-star {
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 4px;
+  color: gold;
+  transition: color 0.2s ease;
+}
+.smh-library-star:hover {
+  color: var(--smh-primary);
+}
+
+/* Toast */
 #smh-library-toast {
   position: fixed;
   bottom: 20px;
@@ -137,13 +217,12 @@ input, select, textarea {
   transition: all 0.3s ease-in-out;
   z-index: 1000;
 }
-
 #smh-library-toast.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Home page hero section */
+/* Hero */
 #smh-library-hero {
   display: flex;
   flex-wrap: wrap;
@@ -152,25 +231,12 @@ input, select, textarea {
   gap: 2rem;
   margin-bottom: 2rem;
 }
-
 .smh-library-hero-text {
   flex: 1;
 }
-
 .smh-library-hero-image img {
   max-width: 280px;
 }
-
-/* Footer area */
-#smh-library-footer {
-  text-align: center;
-  background: var(--smh-primary);
-  color: white;
-  padding: 1rem;
-  margin-top: 3rem;
-}
-
-/* Mobile adjustment */
 @media (max-width: 768px) {
   #smh-library-hero {
     flex-direction: column;
@@ -178,43 +244,21 @@ input, select, textarea {
   }
 }
 
-/* Navigation display (desktop) */
-#smh-library-navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 1.5rem;
-  }
-
-#smh-library-toggle-menu {
-  display: none;
+/* Background video */
+#smh-library-video-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  object-fit: cover;
+  z-index: -1;
 }
 
-/* Mobile navigation toggle */
-@media (max-width: 768px) {
-  #smh-library-navbar ul {
-    display: none;
-    flex-direction: column;
-    background-color: var(--smh-primary);
-    width: 100%;
-    margin-top: 1rem;
-  }
-
-  #smh-library-navbar ul.show {
-    display: flex;
-  }
-
-  #smh-library-toggle-menu {
-    display: block;
-  }
-}
-
-/* Fade-in effect on load */
+/* Fade animation */
 .fade-in {
   animation: fadeSlideUp 0.4s ease-out both;
 }
-
 @keyframes fadeSlideUp {
   from {
     opacity: 0;
@@ -226,67 +270,11 @@ input, select, textarea {
   }
 }
 
-/* Star Rating Visual */
-.smh-library-star {
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-right: 4px;
-  transition: color 0.2s ease;
-}
-
-.smh-library-star:hover {
-  color: var(--smh-primary);
-}
-
-/* Skip link styling */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
+/* Footer */
+#smh-library-footer {
+  text-align: center;
   background: var(--smh-primary);
   color: white;
-  padding: 0.5rem;
-  z-index: 100;
-  transition: top 0.3s ease;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-
-/* Star Rating Visual: Yellow Stars */
-.smh-library-star {
-  font-size: 1.5rem;
-  cursor: pointer;
-  margin-right: 4px;
-  color: gold; /* Yellow stars */
-  transition: color 0.2s ease;
-}
-
-/* Add to Wishlist Button: Green */
-.smh-library-btn[data-smh-library-add] {
-  background-color: #27ae60;
-}
-
-.smh-library-btn[data-smh-library-add]:hover {
-  background-color: #1e8449;
-}
-
-/* Favourite Button: Blue */
-.smh-library-btn.smh-fav-btn {
-  background-color: #3498db;
-}
-
-.smh-library-btn.smh-fav-btn:hover {
-  background-color: #2c80b4;
-}
-
-/* Remove Button: Red */
-.smh-library-btn.smh-remove-fav {
-  background-color: #e74c3c;
-}
-
-.smh-library-btn.smh-remove-fav:hover {
-  background-color: #c0392b;
+  padding: 1rem;
+  margin-top: 3rem;
 }
