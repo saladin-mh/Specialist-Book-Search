@@ -1,37 +1,38 @@
 /**
  * smh-library-storage.js
- * Provides simple and safe wrappers for interacting with localStorage using JSON.
- * Ensures fallback defaults and guards against malformed data or quota errors.
+ * 
+ * Provides robust, secure wrappers for localStorage using JSON.
+ * Includes exception handling and fallback defaults for resilience.
+ * Suitable for use in academic and production environments.
  */
 
 /**
- * Retrieves a parsed value from localStorage.
+ * Retrieves a JSON-parsed value from localStorage.
  *
- * @param {string} key - The localStorage key to retrieve.
- * @param {*} fallback - A fallback value to return if the key is not found or parsing fails.
- * @returns {*} - The parsed value from localStorage or the fallback.
+ * @param {string} key - The name of the localStorage key to access.
+ * @param {*} fallback - A fallback value to return if retrieval or parsing fails.
+ * @returns {*} Parsed JSON value or fallback default.
  */
 export function smhLibraryStorageGet(key, fallback = []) {
   try {
     const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : fallback;
-  } catch (e) {
-    console.warn(`LocalStorage retrieval error for key: '${key}'`, e);
+  } catch (error) {
+    console.warn(`⚠️ LocalStorage retrieval failed for key: '${key}'`, error);
     return fallback;
   }
 }
 
 /**
- * Stores a JSON-serializable value to localStorage.
+ * Safely serialises and stores a JSON-compatible object in localStorage.
  *
- * @param {string} key - The localStorage key to store under.
- * @param {*} value - The value to store (must be JSON-serializable).
+ * @param {string} key - The name of the localStorage key to write to.
+ * @param {*} value - The value to store (must be serialisable to JSON).
  */
 export function smhLibraryStorageSet(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-    console.error(`LocalStorage save error for key: '${key}'`, e);
+  } catch (error) {
+    console.error(`❌ LocalStorage save error for key: '${key}'`, error);
   }
 }
-
