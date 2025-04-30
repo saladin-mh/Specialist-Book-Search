@@ -1,27 +1,31 @@
 /**
- * Displays a toast notification on the screen.
- * - Automatically hides after a delay
- * - Works with ARIA live region for screen readers
- * - Includes fade animation support
- * - Prevents stacking or overlap by clearing existing timeouts
- * @param {string} message - The message to show
- * @param {number} duration - How long to show the toast (ms)
+ * Displays a non-intrusive toast message overlay on the user's interface.
+ *
+ * Key Features:
+ * - Automatically disappears after a defined delay.
+ * - Accessible to screen readers using ARIA live region.
+ * - Includes fade-in CSS animation support.
+ * - Prevents stacking by cancelling previous timeouts.
+ *
+ * @param {string} message - The text to be displayed in the toast.
+ * @param {number} duration - Visibility time in milliseconds (default: 3000 ms).
  */
 export function smhLibraryShowToast(message = '', duration = 3000) {
   const toast = document.getElementById('smh-library-toast');
   if (!toast) return;
 
-  // Accessibility: Update ARIA content
+  // Set ARIA live announcement role for accessibility tools
   toast.setAttribute('role', 'alert');
   toast.setAttribute('aria-live', 'assertive');
 
+  // Apply the message text and display state
   toast.textContent = message;
   toast.classList.add('show', 'fade-in');
 
-  // Clear previous hide timeout if still pending
+  // Cancel any existing hide timer to prevent overlap
   clearTimeout(toast._hideTimer);
 
-  // Hide after specified duration
+  // Set automatic fade-out timer
   toast._hideTimer = setTimeout(() => {
     toast.classList.remove('show');
   }, duration);
