@@ -1,0 +1,115 @@
+/* SMH Library: Dark Theme Overrides */
+:root {
+    --smh-primary: #bb86fc;           /* Light purple */
+    --smh-accent: #3c3c3c;            /* Input backgrounds */
+    --smh-bg: #121212;                /* Page background */
+    --smh-text: #e0e0e0;              /* General text colour */
+    --smh-light: #1f1f1f;             /* Cards and containers */
+    --smh-border: #444;
+    --smh-radius: 6px;
+    --smh-success: #4caf50;
+    --smh-danger: #f44336;
+    --smh-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Base */
+  body {
+    background: var(--smh-bg);
+    color: var(--smh-text);
+  }
+  
+  h1, h2, h3, h4 {
+    color: var(--smh-primary);
+  }
+  
+  a {
+    color: var(--smh-primary);
+  }
+  
+  input, select, textarea {
+    background: var(--smh-accent);
+    color: var(--smh-text);
+    border: 1px solid var(--smh-border);
+  }
+  
+  /* Navigation Bar */
+  #smh-library-navbar {
+    background: #1e1e1e;
+    color: white;
+  }
+  
+  #smh-library-navbar a {
+    color: white;
+  }
+  #smh-library-navbar ul li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Buttons */
+  .smh-library-btn {
+    background-color: var(--smh-primary);
+    color: black;
+  }
+  .smh-library-btn:hover {
+    background-color: #9b5de5;
+  }
+  
+  .smh-library-btn[data-smh-library-add] {
+    background-color: #4caf50;
+  }
+  .smh-library-btn[data-smh-library-add]:hover {
+    background-color: #388e3c;
+  }
+  
+  .smh-library-btn.smh-fav-btn {
+    background-color: #03a9f4;
+  }
+  .smh-library-btn.smh-fav-btn:hover {
+    background-color: #0288d1;
+  }
+  
+  .smh-library-btn.smh-remove-fav {
+    background-color: #e53935;
+  }
+  .smh-library-btn.smh-remove-fav:hover {
+    background-color: #b71c1c;
+  }
+  
+  /* Book Cards */
+  .book {
+    background: var(--smh-light);
+    color: var(--smh-text);
+    border-left: 5px solid var(--smh-primary);
+  }
+  .book.highlight {
+    border-left-color: var(--smh-success);
+    background: #2e7d32;
+  }
+  
+  /* Toasts */
+  #smh-library-toast {
+    background: var(--smh-success);
+    color: white;
+    box-shadow: var(--smh-shadow);
+  }
+  
+  /* Footer */
+  #smh-library-footer {
+    background: #1e1e1e;
+    color: white;
+  }
+  
+  /* Form Labels (explicit) */
+  label {
+    color: var(--smh-text);
+  }
+  
+  /* Video background overlay if needed */
+  #smh-library-video-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+  }
+  
